@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+
+  <xs:simpleType name="roleType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Main PI" />
+      <xs:enumeration value="Other PI" />
+    </xs:restriction>
+  </xs:simpleType>
+
+    <xs:simpleType name="CountryCodeType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[A-Z]{3}" />
+        </xs:restriction>
+    </xs:simpleType>
+
+
+    <xs:complexType name="PersonType">
+        <xs:all>
+            <xs:element name="name" type="xs:string" />
+            <xs:element name="role" type="roleType" />
+            <xs:element name="affiliation" type="xs:string" minOccurs="0" />
+            <xs:element name="email" type="xs:string" minOccurs="0" />
+        </xs:all>
+    </xs:complexType>
+
+    <xs:simpleType name="DOIType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="10\.\d{4,9}\/[-._;()/:A-Z0-9]+" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="PopulationType">
+        <xs:all>
+            <xs:element name="label" type="xs:string" />
+            <xs:element name="country" type="CountryCodeType" />
+            <xs:element name="coverage" type="xs:string" />
+            <xs:element name="unit_of_randomization" type="xs:string" />
+            <xs:element name="target_sample_size" type="xs:string" />
+        </xs:all>
+    </xs:complexType>
+
+    <xs:complexType name="OutcomeType">
+        <xs:sequence>
+            <xs:element name="label" type="xs:string" />
+            <xs:element name="description" type="xs:string" />
+            <xs:element name="unit-original" type="xs:string" />
+            <xs:element name="unit-analytical" type="xs:string" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="InterventionType">
+        <xs:sequence>
+            <xs:element name="label" type="xs:string" />
+            <xs:element name="description" type="xs:string" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ArmType">
+        <xs:sequence>
+            <xs:element name="label" type="xs:string" />
+            <xs:element name="population" type="xs:string" minOccurs="1" maxOccurs="unbounded" />
+            <xs:element name="intervention" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="HypothesizedValueType">
+        <xs:sequence>
+            <xs:element name="number" type="xs:decimal" />
+            <xs:element name="comment" type="xs:string" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="OutcomeInArmType">
+        <xs:sequence>
+            <xs:element name="outcome" type="xs:string" />
+            <xs:element name="arm" type="xs:string" />
+            <xs:element name="comment" type="xs:string" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="OutcomeDifferenceType">
+        <xs:sequence>
+            <xs:element name="first" type="OutcomeInArmType" />
+            <xs:element name="reference" type="OutcomeInArmType" />
+            <xs:element name="comment" type="xs:string" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="estimate">
+        <xs:sequence>
+            <xs:element name="feature" type="xs:string" />
+            <xs:element name="comment" type="xs:string" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="HypothesisType">
+        <xs:all>
+            <xs:element name="LHS" type="HsideType" />
+            <xs:element name="RHS" type="HsideType" />
+            <xs:element name="test_feature" type="xs:string" />
+            <xs:element name="test_type" type="xs:string" />
+            <xs:element name="control_variables" type="xs:string" />
+            <xs:element name="mht_family" type="xs:string" />
+            <xs:element name="howto" type="xs:string" />
+            <xs:element name="comment" type="xs:string" />
+        </xs:all>
+    </xs:complexType>
+
+    <xs:complexType name="gHtype">
+        <xs:sequence>
+            <xs:choice>
+                <xs:element ref="OutcomeDifferenceType" />
+                <xs:element ref="HypothesizedValueType" />
+                <xs:element ref="estimate" />
+            </xs:choice>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="HsideType">
+        <xs:sequence>
+            <xs:element name="Houtcome" type="gHtype" minOccurs="1" maxOccurs="unbounded" />
+        </xs:sequence>
+    </xs:complexType>
+
+
+    <xs:element name="trial">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="title" type="xs:string" />
+                <xs:element name="owners">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="researcher" type="PersonType" maxOccurs="unbounded"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="abstract" type="xs:string" />
+                <xs:element name="topics">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="keyword" maxOccurs="unbounded" type="xs:string" />
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="registration_number" type="xs:string" />
+                <xs:element name="registration_date" type="xs:string" />
+                <xs:element name="intervention_start_date" type="xs:string" />
+                <xs:element name="intervention_stop_date" type="xs:string" />
+                <xs:element name="pre_analysis_plan" type="xs:string" />
+                <xs:element name="data_publication" type="xs:string" />
+                <xs:element name="reports_and_materials" type="xs:string" />
+                <xs:element name="relevant_papers" type="xs:string" />
+
+                <xs:element name="populations">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="population" type="PopulationType" minOccurs="1"
+                                maxOccurs="unbounded" />
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+
+                <xs:element name="main_outcomes">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="main_outcome" type="OutcomeType" minOccurs="1"
+                                maxOccurs="unbounded" />
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+
+                <xs:element name="interventions">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="intervention" type="InterventionType" minOccurs="1"
+                                maxOccurs="unbounded" />
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+
+                <xs:element name="arms">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="arm" type="ArmType" minOccurs="1"
+                                maxOccurs="unbounded" />
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+
+                <xs:element name="hypotheses">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="hypothesis" type="HypothesisType" minOccurs="1"
+                                maxOccurs="unbounded" />
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>
