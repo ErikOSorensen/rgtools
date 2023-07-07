@@ -2,6 +2,8 @@ import csv
 import re
 import sys
 from string import Template
+from xml.sax.saxutils import quoteattr
+
 
 def read_trials(fname='data/trials.csv'):
     with open(fname, 'r') as csvfile:
@@ -108,7 +110,7 @@ def topics_string_from_trial(trial):
     keywords = get_keywords(trial)
     output = ""
     for keyword in keywords:
-        output += f"\n  <keyword>{keyword}</keyword>"
+        output += f"\n  <keyword>{quoteattr(keyword)}</keyword>"
     if output!="":
         output += "\n"
     return output
@@ -117,7 +119,7 @@ def person_from_dct(dct, role):
     dct['role'] = role
     if not dct.get('affiliation'):
         dct['affiliation'] = ""
-    string = f"""<researcher><name>{dct['name']}</name><role>{dct['role']}</role><affiliation>{dct['affiliation']}</affiliation><email>{dct['email']}</email></researcher>"""
+    string = f"""<researcher><name>{quoteattr(dct['name'])}</name><role>{quoteattr(dct['role'])}</role><affiliation>{quoteattr(dct['affiliation'])}</affiliation><email>{quoteattr(dct['email'])}</email></researcher>"""
     return string
 
 
@@ -131,8 +133,8 @@ def owners_string_from_trial(trial):
 
 
 def templatedct_from_trialdct(trial):
-    d = {'title': trial['Title'],
-     'abstract': trial['Abstract'],
+    d = {'title': quoteattr(trial['Title']),
+     'abstract': quoteattr(trial['Abstract']),
      'registration_number': get_trial_number_from_trial(trial),
      'registration_date': trial['First registered on'],
      'intervention_start_date': trial['Intervention start date'],
