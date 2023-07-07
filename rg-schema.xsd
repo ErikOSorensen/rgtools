@@ -2,12 +2,12 @@
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
 
-  <xs:simpleType name="roleType">
-    <xs:restriction base="xs:string">
-      <xs:enumeration value="Main PI" />
-      <xs:enumeration value="Other PI" />
-    </xs:restriction>
-  </xs:simpleType>
+    <xs:simpleType name="roleType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Main PI" />
+            <xs:enumeration value="Other PI" />
+        </xs:restriction>
+    </xs:simpleType>
 
     <xs:simpleType name="CountryCodeType">
         <xs:restriction base="xs:string">
@@ -132,7 +132,7 @@
                 <xs:element name="owners">
                     <xs:complexType>
                         <xs:sequence>
-                            <xs:element name="researcher" type="PersonType" maxOccurs="unbounded"/>
+                            <xs:element name="researcher" type="PersonType" maxOccurs="unbounded" />
                         </xs:sequence>
                     </xs:complexType>
                 </xs:element>
