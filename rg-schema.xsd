@@ -88,7 +88,7 @@
         </xs:sequence>
     </xs:complexType>
 
-    <xs:complexType name="estimate">
+    <xs:complexType name="EstimateType">
         <xs:sequence>
             <xs:element name="feature" type="xs:string" />
             <xs:element name="comment" type="xs:string" />
@@ -111,9 +111,9 @@
     <xs:complexType name="gHtype">
         <xs:sequence>
             <xs:choice>
-                <xs:element ref="OutcomeDifferenceType" />
-                <xs:element ref="HypothesizedValueType" />
-                <xs:element ref="estimate" />
+                <xs:element name="OutcomeDifference" type="OutcomeDifferenceType" />
+                <xs:element name="HypothesizedValue" type="HypothesizedValueType" />
+                <xs:element name="Estimate" type="EstimateType" />
             </xs:choice>
         </xs:sequence>
     </xs:complexType>
