@@ -1,5 +1,6 @@
 import csv
 import re
+import sys
 from string import Template
 
 def read_trials(fname='data/trials.csv'):
@@ -125,7 +126,7 @@ def owners_string_from_trial(trial):
     mainpi = [person_from_dct( get_main_pi(trial), "Main PI")]
     otherpis = [ person_from_dct( x, "Other PI") for x in get_other_pis(trial)]
     allpis = mainpi + otherpis
-    return "\n  " + "\n  ".join(allpis)
+    return "\n  " + "\n  ".join(allpis) + "\n"
 
 
 
@@ -146,7 +147,9 @@ def templatedct_from_trialdct(trial):
 
 def main():
     trials = read_trials()
-    trial = get_trial_from_number(trials, 487)
+    assert len(sys.argv)==2, "Should have exactly one argument"
+    trialno = int(sys.argv[1])
+    trial = get_trial_from_number(trials, trialno)
     tdct = templatedct_from_trialdct(trial)
     t = Template(trial_template)
     # print(str(trial))
