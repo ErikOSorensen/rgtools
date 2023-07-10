@@ -196,6 +196,7 @@
                         <xs:sequence>
                             <xs:element name="hypothesis" type="HypothesisType" minOccurs="1"
                                 maxOccurs="unbounded" />
+                            <xs:element name="comment" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
                         </xs:sequence>
                     </xs:complexType>
                 </xs:element>
