@@ -287,6 +287,87 @@ that we aim to encode. That is fine and you can enter the alternative hypothesis
 
 #### LHS and RHS
 
+Each of these will contain one or more `Houtcome`s. These can be of different 
+types since hypotheses sometimes vary. But the main structure is that a
+hypothesis should be of the form 
+$$ LHS = RHS $$.
+
+Written in terms of math, the simplest and most common hypothesis we expect to
+see is of the form
+$$ E[Y|A_1, X] - E[Y|A_2, X] = 0,$$
+saying that the expected outcome ($Y$) should be the same in arm $A_1$ and $A_2$
+(allowing for the control variables in $X$). This is an example where both
+the left hand side (LHS) and the right hand side (RHS) is of length 1, but the
+*types* of the LHS and the RHS are different.
+
+This is implemented by the `Houtcome` (the shared type of LHS and RHS) being
+able to contain one of three different types: 
+
+1. `OutcomeDifference` intended to capture expressions such as $ E[Y|A_1, X] - E[Y|A_2, X]$ ).
+2. `HypothesizedValue` intended to capture simple expressions, such as constant numbers.
+3. `Estimate` intended to capture general features to be estimated. 
+
+##### OutcomeDifference
+
+An `OutcomeDifference` contains the idea of arm comparisons out outcomes. It is defined
+with three elements:
+
+| Element | type | Mandatory? |
+|---------|------|------------|
+| first   | OutcomeInArmType | Yes |
+| reference | OutcomeInArmType | Yes |
+| comment | string | No |
+
+This reference a structure (in either the LHS or the RHS) of
+$$\mathrm{first} - \mathrm{reference}.$$
+
+The comment field can be given free-text to indicate if this
+was unclear or difficult to encode - possibly also an interpretation
+by the coder.
+
+The main definition is that of an `OutcomeInArm` which itself is defined
+by its elements:
+
+
+| Element | type | Mandatory? |
+|---------|------|------------|
+| outcome | string | Yes |
+| arm     | string | Yes |
+| comment | string | No  |
+
+In such an `OutcomeInArm`, the two mandatory elements reference the labels given to
+outcomes and arms.
+
+Again, the comment field can be given free-text to indicate if this
+was unclear or difficult to encode - possibly also an interpretation
+by the coder.
+
+##### Hypothesized value
+
+This is a very simple type intended to encode simple 
+hypotheses:
+
+| Element | type | Mandatory? |
+|---------|------|------------|
+| number  | decimal | Yes |
+| comment | string | No |
+
+Often the number will simply be zero.
+
+##### Estimate
+
+This is supposed to be a catch-all type for outcomes that
+cannot easily be put in the most common forms. It might
+be a regression coefficient, or it might be a structural
+parameter from a complicated model. The elements are
+
+| Element | type | Mandatory? |
+|---------|------|------------|
+| feature | string | Yes |
+| comment | string | No  |
+
+The `feature` should include a full description of what the estimate entails (including
+free form reference to arms that provide data).
 
 
 #### test_feature
@@ -329,6 +410,39 @@ This is a field for the coder to provide free-text comments if they believe that
 they might be wrong because of particularly complicated or under-specified
 hypotheses in the registration.
 
+#### Example of an hypothesis
+
+```xml
+<hypothesis>
+  <description>levels treatment has (no) positive impact on test scores.</description>
+  <label>H1</label>
+  <control_variables>Yes</control_variables>
+  <test_feature>Mean</test_feature>
+  <test_type>two-sided</test_type>
+  <howto>In an OLS framweork</howto>
+  <LHS>
+    <Houtcome>
+      <OutcomeDifference>
+        <first>
+          <outcome>testscore</outcome>
+          <arm>levels</arm>
+        </first>
+        <reference>
+          <outcome>testscore</outcome>
+          <arm>control</arm>
+        </reference>
+      </OutcomeDifference>
+    </Houtcome>
+  </LHS>
+  <RHS>
+    <Houtcome>
+      <HypothesizedValue>
+        <number>0</number>
+      </HypothesizedValue>
+    </Houtcome>
+  </RHS>
+</hypothesis>
+```
 
 
 
