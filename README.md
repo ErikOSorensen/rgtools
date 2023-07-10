@@ -92,6 +92,7 @@ response.
 #### Example of a population
 
 This is taken from study 1009:
+
 ```xml
 <population>
     <country>TZA</country>
@@ -105,14 +106,228 @@ This is taken from study 1009:
 </population>
 ```
 
+### main outcomes
+
+There are 4 elements to an outcome:
+
+| Element | type | Mandatory? |
+|---------|------|------------|
+| label   | string | yes    |
+| description | string | yes |
+| unit_original | string | yes |
+| unit_analytical | string | yes |
+
+
+#### label
+
+
+Each of the outcomes must get a unique label such that it can be referenced from
+other elements. It needs to be unique *within* a trial, not necessarily across
+trials.
+
+#### description
+
+A free-text description of how what the outcome is intended to represent and maybe
+how it is collected.
+
+#### unit_original
+
+Is the outcome in some numeric currency? Is it a binary outcome? Categories? 
+
+#### unit_analytical
+
+Possible transformations of the original collection format provided in the
+registration or the pre-analysis plan. Examples might be "Z-normalized", or
+"Coded binary as above the median" or "coded numerically 1-5". If no information
+is provided on such transformation, write "none provided".
+
+#### Example of a main outcome
+
+This is taken from study 1009:
+
+```xml
+<main_outcome>
+    <label>testscore</label>
+    <description>Students will be tested at the end of the first year and at the end of the second year. 
+    Grade 1 students will be tested at the beginning of the first and second years, to provide 
+    baseline scores to evaluate their initial learning levels. For some analysis we will 
+    also aggregate test scores across subjects by summing them and the re-normalizing (dividing by the 
+    standard deviation of the test scores in the control group).
+    </description>
+    <unit_original>Grades</unit-original>
+    <unit_analytical>Z-standardized</unit-analytical>
+</main_outcome>
+```
+
+
+### Interventions
+
+Often papers will refer to "treatments", which in the schema of Cavanagh et al
+(2023) often combinations of the "intervention" and possibly also "arms". We
+adopt Cavanagh et als usage, and an interventions is a basic unit that might
+be combined with others in practice. 
+
+An example would be a trial that has both an "information" intervention and an
+"incentives" intervention and full factorial designs. Often registrations report
+this as 4 different treatments: "Control", "Information", "Incentives", and
+"Information and Incentives". In our schema there are just two **interventions**, 
+and these will be combined in the related concepts of **arms** (defined below). 
+
+There are just two elements to defining an intervention:
+
+| Element | type | Mandatory? |
+|---------|------|------------|
+| label   | string | yes    |
+| description | string | yes |
+
+#### label
+
+
+Each of the interventions must get a unique label such that it can be referenced
+from other elements. It needs to be unique *within* a trial, not necessarily
+across trials.
+
+#### description
+
+A free-text description of what the intervention involves.
+
+#### Example of an intervention
+
+This is taken from study 1009:
+
+```xml
+<intervention>
+    <label>levels</label>
+    <description> "levels" incentive that provides teachers
+      and head teachers with bonus payments conditional on the skills that each
+      student is able to demonstrate in a basic literacy and numeracy
+      tests
+    </description>
+</intervention>
+```
+
+### Arms
+
+An **arm** combines the concept of a **population** with a possible list of
+**interventions**.
+
+There are three elements to an arm:
+
+| Element | type | Mandatory? | May repeat? |
+|---------|------|------------|------------|
+| label   | string | yes    | no |
+| population | string | yes | yes |
+| intervention | string | no | yes
+
+#### label
+
+Each of the arms must get a unique label such that it can be referenced from
+other elements. It needs to be unique *within* a trial, not necessarily across
+trials.
+
+#### population
+
+An arm must contain one or more **populations**. These are referenced by their population labels.
+
+#### intervention
+
+An arm has zero, one, or more **interventions**. These are referenced by their intervention labels.
+
+#### Example of an arm
+
+This is taken from study 1009:
+
+```xml
+<arm>
+  <label>levels</label>
+  <population>TZA</population>
+  <intervention>levels</intervention>
+</arm>
+```
+
+### Hypothesis
+
+This is an element that has not got a counterpart in Cavanagh et al (2023) but
+is essential to our purpose. An hypothesis is, in general, a claim about some
+features of the outcomes vary by populations and interventions (or how the
+outcomes vary by arms). These hypotheses can be simple or complicated, and we
+expect substantial variety. Our intent is to have a schema that can account
+for different types of hypotheses. 
+
+In our setting, an **hypothesis** always refer to the null hypothesis that would 
+be subject to statistical testing.
+
+All this creates a need for more complex types. An hypothesis is defined by the
+following elements:
+
+| Element | type | Mandatory? |
+|---------|------|------------|
+| label  | string | yes |
+| description | string | yes |
+| LHS | Houtcome | yes |
+| RHS | Houtcome | yes |
+|test_feature | string | yes |
+|control_variables | string | yes |
+|mht_family | string | no |
+|howto | string | no |
+|comment | string |no |
+
+#### label 
+
+Each of the hypotheses must get a unique label such that it can be referenced from
+other elements. It needs to be unique *within* a trial, not necessarily across
+trials.
+
+#### description
+
+A free-text description of what the hypothesis entails. Often this can be lifted in
+a sentence from the paper. Note that the hypothesis as stated in the paper often
+will be a statement of the *alternative hypothesis* instead of the null hypothesis
+that we aim to encode. That is fine and you can enter the alternative hypothesis here.
+
+#### LHS and RHS
 
 
 
+#### test_feature
+
+What feature of the outcomes is involved? Most of the time this will be *mean* (which
+would include the conditional mean), but sometimes *variance* or *distribution* will
+also be relevant.
+
+#### test_type
+
+A short description of relevance to the test. Might be "two-sided", "one-sided", or possibly
+the name of a test such as "Mann-Whitney" or "Kolmogorov-Smirnov".
+
+#### control_variables
+
+Should the main test of the hypothesis control for background characteristics? Yes or No,
+or possibly "Not specified".
+
+#### mht_family
+
+Sometimes the registration or a pre-analysis plan will specify that the authors
+will correct for testing a number of similar hypothesis, *multiple hypothesis
+testing corrections*. In this case, they should specify which hypothesis belongs
+together and should be corrected together. This is known as a *family* of tests,
+and we record a label that specifies this family. The family will be indicated
+by using the same `mht_family` label for all the hypotheses that belong in a single 
+family.
+
+#### howto
+
+Sometimes contextual details are provided about how tests should be done. That
+might be "In an OLS framework", or it might be that standard errors should be
+calculated in a particular way, or possibly the name of a procedure for
+correcting for multiple testing.
 
 
+#### comment
 
-
-
+This is a field for the coder to provide free-text comments if they believe that
+they might be wrong because of particularly complicated or under-specified
+hypotheses in the registration.
 
 
 
