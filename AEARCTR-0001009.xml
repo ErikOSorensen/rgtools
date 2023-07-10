@@ -1,0 +1,193 @@
+<trial xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="rg-schema.xsd">
+  <title>"Promoting Early Grade Reading &amp; Numeracy in Tanzania: KiuFunza II"</title>
+  <owners>
+    <researcher>
+      <name>"Karthik Muralidharan"</name>
+      <role>Main PI</role>
+      <affiliation>""</affiliation>
+      <email>"kamurali@ucsd.edu"</email>
+    </researcher>
+    <researcher>
+      <name>"Mauricio Romero"</name>
+      <role>Other PI</role>
+      <affiliation>"University of California, San Diego"</affiliation>
+      <email>"mtromero@ucsd.edu"</email>
+    </researcher>
+    <researcher>
+      <name>"Isaac Mbiti"</name>
+      <role>Other PI</role>
+      <affiliation>"University of Virginia"</affiliation>
+      <email>"imbiti@virginia.edu"</email>
+    </researcher>
+    <researcher>
+      <name>"Karthik Muralidharan"</name>
+      <role>Other PI</role>
+      <affiliation>"University of California, San Diego"</affiliation>
+      <email>"kamurali@ucsd.edu"</email>
+    </researcher>
+  </owners>
+  <abstract>"Overall student learning levels remain low across East Africa, despite a decade plus of major reforms and significant new investments in public education. In recent years, teacher performance pay has received an increasing amount attention as a means of improving student learning. Yet the current evidence on teacher performance pay is at best mixed, with some studies finding large positive effects, and others finding little or no effects at all. However, these studies are not directly comparable as they are performed in different contexts, with different incentive structures, and different budgets.  In the KiuFunza II RCT we evaluate two different teacher incentive programs implemented in 180 randomly selected government primary schools across ten districts in Tanzania, focusing on English, Kiswahili, and Math in Grades 1, 2, and 3. In the first arm, “levels”, teachers are paid a bonus based on the number of skills within a given subject a student is able to master. In the second arm, “gains”, students are placed in ability groups at the beginning of the year based on starting test scores. Teachers are then rewarded for their students’ improvements within their specific ability groups, regardless of initial learning levels. The goal of the RCT is to determine whether there is clear evidence that teacher incentive schemes and pay for performance programs are effective at improving learning outcomes."</abstract>
+  <topics>
+    <keyword>"education"</keyword>
+    <keyword>"Cash on Delivery"</keyword>
+    <keyword>"Incentives"</keyword>
+    <keyword>"Performance Pay"</keyword>
+    <keyword>"Education Inputs"</keyword>
+  </topics>
+  <registration_number>1009</registration_number>
+  <registration_date>2016-05-04</registration_date>
+  <intervention_start_date>2015-01-01</intervention_start_date>
+  <intervention_stop_date>2016-12-31</intervention_stop_date>
+  <pre_analysis_plan>Yes</pre_analysis_plan>
+  <data_publication>No</data_publication>
+  <reports_and_materials>$reports_and_materials</reports_and_materials>
+  <relevant_papers>$relevant_papers</relevant_papers>
+
+  <populations>
+    <population>
+      <country>TZA</country>
+      <label>TZA</label>
+      <coverage>Students
+  in government primary schools. The sample of 180 schools was taken from a
+  previous RCT.</coverage>
+      <target_sample_size>80 schools; 7,200 students (40 per school, 10 students
+  from Grades 1, 2, 3, and 4); 1,800 teachers (8-12 per school); 2,700
+  households (15 per school)</target_sample_size>
+      <unit_of_randomization>schools</unit_of_randomization>
+    </population>
+  </populations>
+
+  <main_outcomes>
+    <main_outcome>
+      <label>testscore</label>
+      <description>Students will be tested at the end of the first year and at the end of the second year. Grade 1 students will be tested at the beginning of the first and second years, to provide baseline scores to evaluate their initial learning levels. For some analysis we will also aggregate test scores across subjects by summing them and the re-normalizing (dividing by the standard deviation of the test scores in the control group).</description>
+      <unit-original>Grades</unit-original>
+      <unit-analytical>Z-standardized</unit-analytical>
+    </main_outcome>
+  </main_outcomes>
+
+  <interventions>
+    <intervention>
+      <label>levels</label>
+      <description> "levels" incentive that provides teachers
+  and head teachers with bonus payments conditional on the skills that each
+  student is able to demonstrate in a basic literacy and numeracy
+  tests</description>
+    </intervention>
+    <intervention>
+      <label>gains</label>
+      <description>A "gains" incentive, that provides teachers and head teachers with
+bonus payments that are proportional to the relative gains of each student, when
+compared to other students with similar initial learning levels.</description>
+    </intervention>
+  </interventions>
+
+  <arms>
+    <arm>
+      <label>control</label>
+      <population>TZA</population>
+    </arm>
+    <arm>
+      <label>levels</label>
+      <population>TZA</population>
+      <intervention>levels</intervention>
+    </arm>
+    <arm>
+      <label>gains</label>
+      <population>TZA</population>
+      <intervention>gains</intervention>
+    </arm>
+  </arms>
+
+  <hypotheses>
+    <hypothesis>
+      <description>levels treatment has (no) positive impact on test scores.</description>
+      <label>H1</label>
+      <control_variables>Yes</control_variables>
+      <test_feature>Mean</test_feature>
+      <test_type>two-sided</test_type>
+      <howto>In an OLS framweork</howto>
+      <LHS>
+        <Houtcome>
+          <OutcomeDifference>
+            <first>
+              <outcome>testscore</outcome>
+              <arm>levels</arm>
+            </first>
+            <reference>
+              <outcome>testscore</outcome>
+              <arm>control</arm>
+            </reference>
+          </OutcomeDifference>
+        </Houtcome>
+      </LHS>
+      <RHS>
+        <Houtcome>
+          <HypothesizedValue>
+            <number>0</number>
+          </HypothesizedValue>
+        </Houtcome>
+      </RHS>
+    </hypothesis>
+    <hypothesis>
+      <description>gains treatment has (no) positive impact on test scores</description>
+      <label>H2</label>
+      <LHS>
+        <Houtcome>
+          <OutcomeDifference>
+            <first>
+              <outcome>testscore</outcome>
+              <arm>gains</arm>
+            </first>
+            <reference>
+              <outcome>testscore</outcome>
+              <arm>control</arm>
+            </reference>
+          </OutcomeDifference>
+        </Houtcome>
+      </LHS>
+      <RHS>
+        <Houtcome>
+          <HypothesizedValue>
+            <number>0</number>
+          </HypothesizedValue>
+        </Houtcome>
+      </RHS>
+      <control_variables>Yes</control_variables>
+      <test_feature>mean</test_feature>
+      <test_type>two-sided</test_type>
+      <howto>In an OLS framework</howto>
+    </hypothesis>
+    <hypothesis>
+      <label>H3</label>
+      <description>gains treatment has (no) greater impact on test scores than the levels incentives structure.</description>
+      <LHS>
+        <Houtcome>
+          <OutcomeDifference>
+            <first>
+              <outcome>testscore</outcome>
+              <arm>gains</arm>
+            </first>
+            <reference>
+              <outcome>testscore</outcome>
+              <arm>control</arm>
+            </reference>
+          </OutcomeDifference>
+        </Houtcome>
+      </LHS>
+      <RHS>
+        <Houtcome>
+          <HypothesizedValue>
+            <number>0</number>
+          </HypothesizedValue>
+        </Houtcome>
+      </RHS>
+      <test_feature>mean</test_feature>
+      <test_type>two-sided</test_type>
+      <control_variables>Yes</control_variables>
+      <howto>In an OLS framework</howto>
+    </hypothesis>
+  </hypotheses>
+
+</trial>

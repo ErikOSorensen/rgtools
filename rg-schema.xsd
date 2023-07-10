@@ -97,14 +97,16 @@
 
     <xs:complexType name="HypothesisType">
         <xs:all>
+            <xs:element name="description" type="xs:string" />
+            <xs:element name="label" type="xs:string" />
             <xs:element name="LHS" type="HsideType" />
             <xs:element name="RHS" type="HsideType" />
             <xs:element name="test_feature" type="xs:string" />
             <xs:element name="test_type" type="xs:string" />
             <xs:element name="control_variables" type="xs:string" />
-            <xs:element name="mht_family" type="xs:string" />
-            <xs:element name="howto" type="xs:string" />
-            <xs:element name="comment" type="xs:string" />
+            <xs:element name="mht_family" type="xs:string" minOccurs="0" />
+            <xs:element name="howto" type="xs:string" minOccurs="0" />
+            <xs:element name="comment" type="xs:string" minOccurs="0" />
         </xs:all>
     </xs:complexType>
 
