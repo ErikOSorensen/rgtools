@@ -410,6 +410,9 @@ This is a field for the coder to provide free-text comments if they believe that
 they might be wrong because of particularly complicated or under-specified
 hypotheses in the registration.
 
+Note that it is also allowed to add any number of "comment" fields directly
+to the `xml <hypotheses>` (plural) element.
+
 #### Example of an hypothesis
 
 ```xml
