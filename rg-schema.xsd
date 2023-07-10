@@ -45,8 +45,8 @@
         <xs:sequence>
             <xs:element name="label" type="xs:string" />
             <xs:element name="description" type="xs:string" />
-            <xs:element name="unit-original" type="xs:string" />
-            <xs:element name="unit-analytical" type="xs:string" />
+            <xs:element name="unit_original" type="xs:string" />
+            <xs:element name="unit_analytical" type="xs:string" />
         </xs:sequence>
     </xs:complexType>
 
