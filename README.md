@@ -266,6 +266,7 @@ following elements:
 | description | string | yes |
 | LHS | Houtcome | yes |
 | RHS | Houtcome | yes |
+| test_heterogeneity | subgroups | no |
 |test_feature | string | yes |
 |control_variables | string | yes |
 |mht_family | string | no |
@@ -290,22 +291,22 @@ that we aim to encode. That is fine and you can enter the alternative hypothesis
 Each of these will contain one or more `Houtcome`s. These can be of different 
 types since hypotheses sometimes vary. But the main structure is that a
 hypothesis should be of the form 
-$$ LHS = RHS $$.
+$$LHS = RHS$$.
 
 Written in terms of math, the simplest and most common hypothesis we expect to
 see is of the form
-$$ E[Y|A_1, X] - E[Y|A_2, X] = 0,$$
+$$E[Y|A_1, X] - E[Y|A_2, X] = 0,$$
 saying that the expected outcome ($Y$) should be the same in arm $A_1$ and $A_2$
 (allowing for the control variables in $X$). This is an example where both
 the left hand side (LHS) and the right hand side (RHS) is of length 1, but the
 *types* of the LHS and the RHS are different.
 
 This is implemented by the `Houtcome` (the shared type of LHS and RHS) being
-able to contain one of three different types: 
+able to contain one of three different types:
 
-1. `OutcomeDifference` intended to capture expressions such as $ E[Y|A_1, X] - E[Y|A_2, X]$ ).
+1. `OutcomeDifference` intended to capture expressions such as $E[Y|A_1, X] - E[Y|A_2, X]$ ).
 2. `HypothesizedValue` intended to capture simple expressions, such as constant numbers.
-3. `Estimate` intended to capture general features to be estimated. 
+3. `Estimate` intended to capture general features to be estimated.
 
 ##### OutcomeDifference
 
@@ -369,6 +370,21 @@ parameter from a complicated model. The elements are
 The `feature` should include a full description of what the estimate entails (including
 free form reference to arms that provide data).
 
+#### test_heterogeneity
+
+Sometimes it is specified that hypotheses should also be broken down and estimated by a number of
+different subgroups. Instead of coding separate hypotheses for each subgroup, it is possible
+to add an (optional) element with free text `xml <subgroups>` elements,  such as in this
+example:
+
+```xml
+<test-heterogeneity>
+  <subgroups>political affiliation</subgroups>
+  <subgroups>gender</subgroups>
+  <subgroups>income below and above country median</subgroups>
+  <subgroups>education groups (no high school, high school, higher education</subgroups>
+</test-heterogeneity>
+```
 
 #### test_feature
 
@@ -393,7 +409,7 @@ will correct for testing a number of similar hypothesis, *multiple hypothesis
 testing corrections*. In this case, they should specify which hypothesis belongs
 together and should be corrected together. This is known as a *family* of tests,
 and we record a label that specifies this family. The family will be indicated
-by using the same `mht_family` label for all the hypotheses that belong in a single 
+by using the same `mht_family` label for all the hypotheses that belong in a single
 family.
 
 #### howto
@@ -446,14 +462,3 @@ to the `xml <hypotheses>` (plural) element.
   </RHS>
 </hypothesis>
 ```
-
-
-
-
-
-
-
-
-
-
-
