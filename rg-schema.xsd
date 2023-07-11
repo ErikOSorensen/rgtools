@@ -97,10 +97,11 @@
 
     <xs:complexType name="HypothesisType">
         <xs:all>
-            <xs:element name="description" type="xs:string" />
             <xs:element name="label" type="xs:string" />
+            <xs:element name="description" type="xs:string" />
             <xs:element name="LHS" type="HsideType" />
             <xs:element name="RHS" type="HsideType" />
+            <xs:element name="test_heterogeneity" type="test_heterogeneityType" minOccurs="0" />
             <xs:element name="test_feature" type="xs:string" />
             <xs:element name="test_type" type="xs:string" />
             <xs:element name="control_variables" type="xs:string" />
@@ -108,6 +109,12 @@
             <xs:element name="howto" type="xs:string" minOccurs="0" />
             <xs:element name="comment" type="xs:string" minOccurs="0" />
         </xs:all>
+    </xs:complexType>
+
+    <xs:complexType name="test_heterogeneityType">
+        <xs:sequence>
+            <xs:element name="subgroups" type="xs:string" minOccurs="1" maxOccurs="unbounded" />
+        </xs:sequence>
     </xs:complexType>
 
     <xs:complexType name="gHtype">
@@ -196,7 +203,8 @@
                         <xs:sequence>
                             <xs:element name="hypothesis" type="HypothesisType" minOccurs="1"
                                 maxOccurs="unbounded" />
-                            <xs:element name="comment" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+                            <xs:element name="comment" type="xs:string" minOccurs="0"
+                                maxOccurs="unbounded" />
                         </xs:sequence>
                     </xs:complexType>
                 </xs:element>
