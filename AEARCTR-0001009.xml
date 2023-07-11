@@ -62,8 +62,8 @@
     <main_outcome>
       <label>testscore</label>
       <description>Students will be tested at the end of the first year and at the end of the second year. Grade 1 students will be tested at the beginning of the first and second years, to provide baseline scores to evaluate their initial learning levels. For some analysis we will also aggregate test scores across subjects by summing them and the re-normalizing (dividing by the standard deviation of the test scores in the control group).</description>
-      <unit_original>Grades</unit-original>
-      <unit_analytical>Z-standardized</unit-analytical>
+      <unit_original>Grades</unit_original>
+      <unit_analytical>Z-standardized</unit_analytical>
     </main_outcome>
   </main_outcomes>
 
