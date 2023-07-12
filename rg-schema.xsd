@@ -187,12 +187,18 @@
                 </xs:element>
                 <xs:element name="registration_number" type="xs:string" />
                 <xs:element name="registration_date" type="xs:string" />
+                <xs:element name="aea_site_data_file" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>md5sum hash of trials.csv used for populating template.</xs:documentation>
+                </xs:annotation>
+                </xs:element>
                 <xs:element name="intervention_start_date" type="xs:string" />
                 <xs:element name="intervention_stop_date" type="xs:string" />
                 <xs:element name="pre_analysis_plan" type="xs:string" />
                 <xs:element name="data_publication" type="xs:string" />
                 <xs:element name="reports_and_materials" type="xs:string" />
                 <xs:element name="relevant_papers" type="xs:string" />
+
 
                 <xs:element name="populations">
                     <xs:annotation>

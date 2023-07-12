@@ -3,7 +3,9 @@ import re
 import sys
 from string import Template
 from xml.sax.saxutils import quoteattr
+import hashlib
 
+TRIALSFILE = 'data/trials.csv'
 
 def read_trials(fname='data/trials.csv'):
     with open(fname, 'r') as csvfile:
@@ -73,9 +75,13 @@ def get_keywords(trial):
     keywordstrings = [x.strip('"').strip().strip('"') for x in trial['Keywords'][1:-1].split(",")]
     return keywordstrings
 
+def get_md5sum(path):
+    with open(path, "r") as f:
+        filedata = f.read()
+    return hashlib.md5(filedata.encode('utf-8')).hexdigest()
 
-trial_template="""
-<trial xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+
+trial_template="""<trial xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
  xsi:noNamespaceSchemaLocation="rg-schema.xsd">
 <title>$title</title>
 <owners>$owners</owners>
@@ -83,6 +89,7 @@ trial_template="""
 <topics>$topics</topics>
 <registration_number>$registration_number</registration_number>
 <registration_date>$registration_date</registration_date>
+<aea_site_data_file>$aea_site_data_file</aea_site_data_file>
 <intervention_start_date>$intervention_start_date</intervention_start_date>
 <intervention_stop_date>$intervention_stop_date</intervention_stop_date>
 <pre_analysis_plan>$pre_analysis_plan</pre_analysis_plan>
@@ -110,7 +117,7 @@ def topics_string_from_trial(trial):
     keywords = get_keywords(trial)
     output = ""
     for keyword in keywords:
-        output += f"\n  <keyword>{quoteattr(keyword)}</keyword>"
+        output += f"\n  <keyword>{keyword}</keyword>"
     if output!="":
         output += "\n"
     return output
@@ -119,7 +126,7 @@ def person_from_dct(dct, role):
     dct['role'] = role
     if not dct.get('affiliation'):
         dct['affiliation'] = ""
-    string = f"""<researcher><name>{quoteattr(dct['name'])}</name><role>{quoteattr(dct['role'])}</role><affiliation>{quoteattr(dct['affiliation'])}</affiliation><email>{quoteattr(dct['email'])}</email></researcher>"""
+    string = f"""<researcher><name>{dct['name']}</name><role>{dct['role']}</role><affiliation>{dct['affiliation']}</affiliation><email>{dct['email']}</email></researcher>"""
     return string
 
 
@@ -133,10 +140,11 @@ def owners_string_from_trial(trial):
 
 
 def templatedct_from_trialdct(trial):
-    d = {'title': quoteattr(trial['Title']),
-     'abstract': quoteattr(trial['Abstract']),
+    d = {'title': f"<![CDATA[{trial['Title']}]]>",
+     'abstract': f"<![CDATA[{trial['Abstract']}]]>",
      'registration_number': get_trial_number_from_trial(trial),
      'registration_date': trial['First registered on'],
+     'aea_site_data_file': get_md5sum(TRIALSFILE),
      'intervention_start_date': trial['Intervention start date'],
      'intervention_stop_date': trial['Intervention end date'],
      'topics': topics_string_from_trial(trial),
