@@ -58,8 +58,8 @@ There are 5 elements to a population all of them mandatory.
 | unit_of_randomization | string | yes |
 | target_sample_size | string | yes |
 
-This is slightly different from the Cavenagh et al, in that they seem to only
-expect a single population per trial (one population consisting of potentially many countries), 
+This is slightly different from the Cavanagh et al, in that they seem to only
+expect a single population per trial (one population consisting of potentially many countries),
 while we allow for a list of populations per trial.
 
 
@@ -267,7 +267,7 @@ following elements:
 | description | string | yes |
 | LHS | Houtcome | yes |
 | RHS | Houtcome | yes |
-| test_heterogeneity | subgroups | no |
+| test_heterogeneity | subgrouptest | no |
 |test_feature | string | yes |
 |control_variables | string | yes |
 |mht_family | string | no |
@@ -379,15 +379,22 @@ free form reference to arms that provide data).
 Sometimes it is specified that hypotheses should also be broken down and estimated by a number of
 different subgroups. Instead of coding separate hypotheses for each subgroup, it is possible
 to add an (optional) element with free text `xml <subgroups>` elements,  such as in this
-example:
+example, which should test income groups separately and for difference, and education groups
+for difference between them:
 
 ```xml
-<test-heterogeneity>
-  <subgroups>political affiliation</subgroups>
-  <subgroups>gender</subgroups>
-  <subgroups>income below and above country median</subgroups>
-  <subgroups>education groups (no high school, high school, higher education</subgroups>
-</test-heterogeneity>
+<test_heterogeneity>
+  <subgrouptest>
+      <subgroups>Below and above median household income</subgroups>
+      <separate_effects>true</separate_effects>
+      <different_effects>true</different_effects>
+  </subgrouptest>
+      <subgrouptest>
+      <subgroups>At or above highschool education</subgroups>
+      <separate_effects>false</separate_effects>
+      <different_effects>true</different_effects>
+  </subgrouptest>
+</test_heterogeneity>
 ```
 
 #### test_feature

@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:annotation>
-        <xs:documentation>
-            A schema to document trial registrations from the AEA RCT Registry.
-            Influenced by Cavanagh, Jack; Fliegner,Jasmin Claire; Kopper,Sarah; Sautmann,Anja.
-            A Metadata Schema for Data from Experiments in the Social Sciences (English). Policy
+        <xs:documentation> A schema to document trial registrations from the AEA RCT Registry.
+            Influenced by Cavanagh, Jack; Fliegner,Jasmin Claire; Kopper,Sarah; Sautmann,Anja. A
+            Metadata Schema for Data from Experiments in the Social Sciences (English). Policy
             Research working paper ; no. WPS 10296 Washington, D.C. : World Bank Group.
             http://documents.worldbank.org/curated/en/099945502062327217/IDU081c960a8049b504197099ff0d12be0b95375</xs:documentation>
     </xs:annotation>
@@ -48,7 +47,8 @@
 
     <xs:simpleType name="DOIType">
         <xs:annotation>
-            <xs:documentation>A Digital Object Identifier, a DOI, with no leading http or server domain.</xs:documentation>
+            <xs:documentation>A Digital Object Identifier, a DOI, with no leading http or server
+                domain.</xs:documentation>
         </xs:annotation>
         <xs:restriction base="xs:string">
             <xs:pattern value="10\.\d{4,9}\/[-._;()/:A-Z0-9]+" />
@@ -139,7 +139,13 @@
             <xs:element name="description" type="xs:string" />
             <xs:element name="LHS" type="HsideType" />
             <xs:element name="RHS" type="HsideType" />
-            <xs:element name="test_heterogeneity" type="test_heterogeneityType" minOccurs="0" />
+            <xs:element name="test_heterogeneity" type="test_heterogeneityType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>This field allows the specification of a list of subgrouptest elements
+                        simplifying a break-down of hypotheses by smaller groups, testing for
+                        heterogeneity.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
             <xs:element name="test_feature" type="xs:string" />
             <xs:element name="test_type" type="xs:string" />
             <xs:element name="control_variables" type="xs:string" />
@@ -149,11 +155,37 @@
         </xs:all>
     </xs:complexType>
 
+
+    <xs:complexType name="subgroupsType">
+    <xs:annotation><xs:documentation>A specification of how a subgroup tests should be done.</xs:documentation></xs:annotation>
+    <xs:sequence>
+            <xs:element name="subgroups" type="xs:string" minOccurs="1" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>How are the subgroups defined?</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="separate_effects" type="xs:boolean">
+                <xs:annotation>
+                    <xs:documentation>Is there a hypothesis for each group seperately? (true/false)</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="different_effects" type="xs:boolean">
+                <xs:annotation>
+                    <xs:documentation>Is there a hypothesis about the estimates being different
+                        between groups? (true/false) </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+    </xs:sequence>
+    </xs:complexType>
+
     <xs:complexType name="test_heterogeneityType">
         <xs:sequence>
-            <xs:element name="subgroups" type="xs:string" minOccurs="1" maxOccurs="unbounded" />
+        <xs:element name="subgrouptest" type="subgroupsType" maxOccurs="unbounded">
+        </xs:element>
         </xs:sequence>
     </xs:complexType>
+
+
 
     <xs:complexType name="gHtype">
         <xs:sequence>
