@@ -59,7 +59,8 @@ There are 5 elements to a population all of them mandatory.
 | target_sample_size | string | yes |
 
 This is slightly different from the Cavenagh et al, in that they seem to only
-expect a single population per trial, while we allow for a list of populations per trial.
+expect a single population per trial (one population consisting of potentially many countries), 
+while we allow for a list of populations per trial.
 
 
 #### label

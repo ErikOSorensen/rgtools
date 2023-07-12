@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
-
+    <xs:annotation>
+        <xs:documentation>
+            A schema to document trial registrations from the AEA RCT Registry.
+            Influenced by Cavanagh, Jack; Fliegner,Jasmin Claire; Kopper,Sarah; Sautmann,Anja.
+            A Metadata Schema for Data from Experiments in the Social Sciences (English). Policy
+            Research working paper ; no. WPS 10296 Washington, D.C. : World Bank Group.
+            http://documents.worldbank.org/curated/en/099945502062327217/IDU081c960a8049b504197099ff0d12be0b95375</xs:documentation>
+    </xs:annotation>
 
     <xs:simpleType name="roleType">
         <xs:restriction base="xs:string">
@@ -41,7 +48,7 @@
 
     <xs:simpleType name="DOIType">
         <xs:annotation>
-            <xs:documentation>A DOI (with no leading http or server domain).</xs:documentation>
+            <xs:documentation>A Digital Object Identifier, a DOI, with no leading http or server domain.</xs:documentation>
         </xs:annotation>
         <xs:restriction base="xs:string">
             <xs:pattern value="10\.\d{4,9}\/[-._;()/:A-Z0-9]+" />
