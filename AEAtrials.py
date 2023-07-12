@@ -82,7 +82,7 @@ def get_md5sum(path):
 
 
 trial_template="""<trial xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
- xsi:noNamespaceSchemaLocation="rg-schema.xsd">
+ xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/ErikOSorensen/rgtools/main/rg-schema.xsd">
 <title>$title</title>
 <owners>$owners</owners>
 <abstract>$abstract</abstract>
