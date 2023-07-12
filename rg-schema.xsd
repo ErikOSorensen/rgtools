@@ -159,7 +159,7 @@
     <xs:complexType name="subgroupsType">
     <xs:annotation><xs:documentation>A specification of how a subgroup tests should be done.</xs:documentation></xs:annotation>
     <xs:sequence>
-            <xs:element name="subgroups" type="xs:string" minOccurs="1" maxOccurs="unbounded">
+            <xs:element name="subgroups" type="xs:string">
                 <xs:annotation>
                     <xs:documentation>How are the subgroups defined?</xs:documentation>
                 </xs:annotation>
