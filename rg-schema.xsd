@@ -91,8 +91,22 @@
 
     <xs:complexType name="OutcomeInArmType">
         <xs:sequence>
-            <xs:element name="outcome" type="xs:string" />
-            <xs:element name="arm" type="xs:string" />
+            <xs:element name="outcome" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Should reference the label of a main outcome.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="arm" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Should reference the label of an arm.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="time" type="xs:int" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>An option to enter an integer for the logical calender time of
+                        a measured outcome.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
             <xs:element name="comment" type="xs:string" minOccurs="0" />
         </xs:sequence>
     </xs:complexType>
@@ -188,9 +202,9 @@
                 <xs:element name="registration_number" type="xs:string" />
                 <xs:element name="registration_date" type="xs:string" />
                 <xs:element name="aea_site_data_file" type="xs:string">
-                <xs:annotation>
-                    <xs:documentation>md5sum hash of trials.csv used for populating template.</xs:documentation>
-                </xs:annotation>
+                    <xs:annotation>
+                        <xs:documentation>md5sum hash of trials.csv used for populating template.</xs:documentation>
+                    </xs:annotation>
                 </xs:element>
                 <xs:element name="intervention_start_date" type="xs:string" />
                 <xs:element name="intervention_stop_date" type="xs:string" />

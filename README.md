@@ -334,10 +334,13 @@ by its elements:
 |---------|------|------------|
 | outcome | string | Yes |
 | arm     | string | Yes |
+| time    | int    | No  |
 | comment | string | No  |
 
 In such an `OutcomeInArm`, the two mandatory elements reference the labels given to
-outcomes and arms.
+outcomes and arms. The optional argument `time` allows one to enter a number for a logical
+time at which the outcome is recorded, such that one doesn't need to enter the same type
+of outcome at different points in time as different outcomes.
 
 Again, the comment field can be given free-text to indicate if this
 was unclear or difficult to encode - possibly also an interpretation
