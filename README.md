@@ -269,6 +269,7 @@ following elements:
 | RHS | Houtcome | yes |
 | test_heterogeneity | subgrouptest | no |
 |test_feature | string | yes |
+|test_type | string | no |
 |control_variables | string | yes |
 |mht_family | string | no |
 |howto | string | no |
