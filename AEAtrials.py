@@ -8,7 +8,7 @@ import hashlib
 TRIALSFILE = 'data/trials.csv'
 
 def read_trials(fname='data/trials.csv'):
-    with open(fname, 'r') as csvfile:
+    with open(fname, 'r', encoding='utf-8') as csvfile:
         reader = csv.DictReader(csvfile)
         trials = {}
         for row in reader:
@@ -76,7 +76,7 @@ def get_keywords(trial):
     return keywordstrings
 
 def get_md5sum(path):
-    with open(path, "r") as f:
+    with open(path, "r", encoding='utf-8') as f:
         filedata = f.read()
     return hashlib.md5(filedata.encode('utf-8')).hexdigest()
 
