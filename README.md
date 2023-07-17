@@ -267,6 +267,8 @@ following elements:
 | description | string | yes |
 | LHS | Houtcome | yes |
 | RHS | Houtcome | yes |
+| detailed | Binary | yes |
+| det_exp | string | yes |
 | test_heterogeneity | subgrouptest | no |
 |test_feature | string | yes |
 |test_type | string | yes |
@@ -374,6 +376,12 @@ parameter from a complicated model. The elements are
 
 The `feature` should include a full description of what the estimate entails (including
 free form reference to arms that provide data).
+
+#### detail  
+Binary variable, takes the value of one if the hypothesis is deemed to be presented with sufficient detail to be tested one specific way. Zero if one or more elements of the hypothesis sufficient detail such that it can be implemented in two or more ways. 
+
+##### det_exp
+String variable, conditional on the hypothesis not being detailed enought (`detail = 0`). Paste here any description in the registration/PAP that it is deemed ambiguos enought such two or more implementations can be consistent with the hypothesis.  
 
 #### test_heterogeneity
 
