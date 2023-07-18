@@ -98,11 +98,3 @@ class XMLToLatex:
 		self.get_trial_object()
 		self.generate_latex()
 		self.write_latex()
-
-# trial_487 = XMLToLatex('data/487_Viviane.xml')
-# trial_487.run()
-
-# trial_487.latex_lines
-# trial_487.trial_object['arms']['arm']
-# from pprint import pprint
-# pprint(trial_487.trial_object['arms']['arm'])
