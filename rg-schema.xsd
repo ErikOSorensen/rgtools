@@ -76,16 +76,63 @@
 
     <xs:complexType name="InterventionType">
         <xs:sequence>
-            <xs:element name="label" type="xs:string" />
-            <xs:element name="description" type="xs:string" />
+            <xs:element name="label" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>The label of the intervention.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="description" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>A description of what the intervention entails in the context
+                        of the trial.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
         </xs:sequence>
     </xs:complexType>
 
     <xs:complexType name="ArmType">
         <xs:sequence>
-            <xs:element name="label" type="xs:string" />
-            <xs:element name="population" type="xs:string" minOccurs="1" maxOccurs="unbounded" />
-            <xs:element name="intervention" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
+            <xs:element name="label" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>The label of the arm.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="population" type="xs:string" minOccurs="1" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>The label of a population included in an arm.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="intervention" type="xs:string" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>The label of an intervention applied in this arm.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="n_units_planned" type="xs:int" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>The number of simple units (such as individuals) planned for
+                        this arm.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="n_clusters_planned" type="xs:int" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>The number of clusters planned for this arm.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ArmGroupType">
+        <xs:sequence>
+            <xs:element name="label" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>A label for the armgroup.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="armlabel" type="xs:string" minOccurs="1" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>The label of an arm included in this group.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
         </xs:sequence>
     </xs:complexType>
 
@@ -141,9 +188,9 @@
             <xs:element name="RHS" type="HsideType" />
             <xs:element name="test_heterogeneity" type="test_heterogeneityType" minOccurs="0">
                 <xs:annotation>
-                    <xs:documentation>This field allows the specification of a list of subgrouptest elements
-                        simplifying a break-down of hypotheses by smaller groups, testing for
-                        heterogeneity.</xs:documentation>
+                    <xs:documentation>This field allows the specification of a list of subgrouptest
+                        elements simplifying a break-down of hypotheses by smaller groups, testing
+                        for heterogeneity.</xs:documentation>
                 </xs:annotation>
             </xs:element>
             <xs:element name="test_feature" type="xs:string" />
@@ -157,8 +204,10 @@
 
 
     <xs:complexType name="subgroupsType">
-    <xs:annotation><xs:documentation>A specification of how a subgroup tests should be done.</xs:documentation></xs:annotation>
-    <xs:sequence>
+        <xs:annotation>
+            <xs:documentation>A specification of how a subgroup tests should be done.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
             <xs:element name="subgroups" type="xs:string">
                 <xs:annotation>
                     <xs:documentation>How are the subgroups defined?</xs:documentation>
@@ -175,16 +224,15 @@
                         between groups? (true/false) </xs:documentation>
                 </xs:annotation>
             </xs:element>
-    </xs:sequence>
+        </xs:sequence>
     </xs:complexType>
 
     <xs:complexType name="test_heterogeneityType">
         <xs:sequence>
-        <xs:element name="subgrouptest" type="subgroupsType" maxOccurs="unbounded">
-        </xs:element>
+            <xs:element name="subgrouptest" type="subgroupsType" maxOccurs="unbounded">
+            </xs:element>
         </xs:sequence>
     </xs:complexType>
-
 
 
     <xs:complexType name="gHtype">
@@ -299,6 +347,19 @@
                         <xs:sequence>
                             <xs:element name="arm" type="ArmType" minOccurs="1"
                                 maxOccurs="unbounded" />
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+
+                <xs:element name="armgroups">
+                    <xs:annotation>
+                        <xs:documentation>Allows the grouping of a list of arms for documenting
+                            hypotheses. </xs:documentation>
+                    </xs:annotation>
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="armgroup" type="ArmGroupType">
+                            </xs:element>
                         </xs:sequence>
                     </xs:complexType>
                 </xs:element>
