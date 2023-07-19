@@ -8,5 +8,7 @@ setup(
     description='Repository with the tooling for capturing data from social science registry trials',
     packages=find_packages('src'),
     package_dir={'': 'src'},
-    install_requires=['pandas==2.0.3'],
+    install_requires=['pandas==2.0.3',
+                      'xmlschema==2.3.1'
+                      ],
 )
