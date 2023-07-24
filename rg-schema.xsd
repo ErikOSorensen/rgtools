@@ -10,12 +10,12 @@
 
     <xs:simpleType name="roleType">
         <xs:restriction base="xs:string">
-            <xs:enumeration value='"Main PI"'>
+            <xs:enumeration value='Main PI'>
                 <xs:annotation>
                     <xs:documentation>Registered as main PI at AEA RCT Registry.</xs:documentation>
                 </xs:annotation>
             </xs:enumeration>
-            <xs:enumeration value='"Other PI"'>
+            <xs:enumeration value='Other PI'>
                 <xs:annotation>
                     <xs:documentation>Other PIs listed at AEA RCT Registry.</xs:documentation>
                 </xs:annotation>
