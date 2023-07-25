@@ -218,7 +218,9 @@ There are three elements to an arm:
 |---------|------|------------|------------|
 | label   | string | yes    | no |
 | population | string | yes | yes |
-| intervention | string | no | yes
+| intervention | string | no | yes |
+| n_units_planned | int | no | no |
+| n_clusters_planned | int | no | no |
 
 #### label
 
@@ -234,6 +236,21 @@ An arm must contain one or more **populations**. These are referenced by their p
 
 An arm has zero, one, or more **interventions**. These are referenced by their intervention labels.
 
+#### n_units_planned 
+
+The number of basic units in this arm (such as individuals, firms, ...). Not mandatory,
+since it will sometimes not be reported, and sometimes only the `n_clusters_planned` will be
+reported.
+
+#### n_clusters_planned
+
+For clustered sampling, 
+the number of *clusters* in this arm (such as village, counties,  ...). Not mandatory,
+since it will sometimes not be reported, and sometimes only the `n_units_planned` will be
+reported. Hopefully, either the `n_units_planned` or `n_clusters_planned` is reported.
+Sometimes *both* will be reported, which is a valid entry.
+
+
 #### Example of an arm
 
 This is taken from study 1009:
@@ -243,6 +260,7 @@ This is taken from study 1009:
   <label>levels</label>
   <population>TZA</population>
   <intervention>levels</intervention>
+  <n_clusters_planned>60</n_clusters_planned>
 </arm>
 ```
 
