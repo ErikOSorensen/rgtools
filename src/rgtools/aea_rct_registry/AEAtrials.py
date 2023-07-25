@@ -148,7 +148,7 @@ def templatedct_from_trialdct(trial):
      'intervention_start_date': trial['Intervention start date'],
      'intervention_stop_date': trial['Intervention end date'],
      'topics': topics_string_from_trial(trial),
-     'pre_analysis_plan': "Yes" if trial['Analysis Plan Documents'] else "No",
+     'pre_analysis_plan': trial['Analysis Plan Documents'],
      'data_publication': "Yes" if trial['Public data'] else "No",
      'owners': owners_string_from_trial(trial),
      }
