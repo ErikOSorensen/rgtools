@@ -186,6 +186,21 @@
             <xs:element name="description" type="xs:string" />
             <xs:element name="LHS" type="HsideType" />
             <xs:element name="RHS" type="HsideType" />
+            <xs:element name="detailed" type="xs:boolean">
+                <xs:annotation>
+                    <xs:documentation>true if the hypothesis is deemed to be presented with
+                        sufficient detail to be tested one specific way. false if one or more
+                        elements of the hypothesis lack sufficient detail such that it can be
+                        implemented in two or more ways.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="det_exp" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Paste here any description in the registration/PAP that it is
+                        deemed ambiguos enough such two or more implementations can be consistent
+                        with the hypothesis.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
             <xs:element name="test_heterogeneity" type="test_heterogeneityType" minOccurs="0">
                 <xs:annotation>
                     <xs:documentation>This field allows the specification of a list of subgrouptest
@@ -354,16 +369,20 @@
                 <xs:element name="armgroups" minOccurs="0">
                     <xs:annotation>
                         <xs:documentation>Allows the grouping of a list of arms for documenting
-                            hypotheses. It is optional to add the armgroups tag (which should
-                            come after the arms tag. But if armgroups is added, then
-                            at least one concrete armgroup must be added. . </xs:documentation>
+                            hypotheses. It is optional to add the armgroups tag (which should come
+                            after the arms tag. But if armgroups is added, then at least one
+                            concrete armgroup must be added. . </xs:documentation>
                     </xs:annotation>
                     <xs:complexType>
                         <xs:sequence>
-                            <xs:element name="armgroup" type="ArmGroupType" minOccurs="1" maxOccurs="unbounded">
-                                <xs:annotation><xs:documentation>armgroup provides a way to reference a number of arms in the formulation of hypotheses.</xs:documentation> </xs:annotation>
+                            <xs:element name="armgroup" type="ArmGroupType" minOccurs="1"
+                                maxOccurs="unbounded">
+                                <xs:annotation>
+                                    <xs:documentation>armgroup provides a way to reference a number
+                                        of arms in the formulation of hypotheses.</xs:documentation>
+                                </xs:annotation>
 
-                        </xs:element>
+                            </xs:element>
                         </xs:sequence>
                     </xs:complexType>
                 </xs:element>

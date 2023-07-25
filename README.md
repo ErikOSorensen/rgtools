@@ -404,10 +404,18 @@ The `feature` should include a full description of what the estimate entails (in
 free form reference to arms that provide data).
 
 #### detail  
-Binary variable, takes the value of one if the hypothesis is deemed to be presented with sufficient detail to be tested one specific way. Zero if one or more elements of the hypothesis lack sufficient detail such that it can be implemented in two or more ways. 
 
-##### det_exp
-String variable, conditional on the hypothesis not being detailed enough (`detail = 0`). Paste here any description in the registration/PAP that it is deemed ambiguos enough such two or more implementations can be consistent with the hypothesis.  
+Binary variable, takes the value of `true` if the hypothesis is deemed to be
+presented with sufficient detail to be tested one specific way. `false` if one
+or more elements of the hypothesis lack sufficient detail such that it can be
+implemented in two or more ways.
+
+#### det_exp
+
+String variable, conditional on the hypothesis not being detailed enough
+(`detail = "false"`). Paste here any description in the registration/PAP that it
+is deemed ambiguous enough such two or more implementations can be consistent
+with the hypothesis.  
 
 #### test_heterogeneity
 
