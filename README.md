@@ -246,6 +246,32 @@ This is taken from study 1009:
 </arm>
 ```
 
+
+
+
+#### Grouping arms in an armgroups
+
+It is optional to add a top-level element named `xml <armgroups>` after the
+`xml <arms>` top-level element. If the `xml <armgroups>` element is included,
+it can contain a sequence of `xml <armgroup>` elements, each of which must
+have a unique label (not the same as one of the arms themselves) and then a
+sequence of `xml <armlabel>` elements which
+refer back to the labels used to identify a single arm.
+
+The purpose of this is to formulate hypotheses jointly on a set of arms.
+
+Example:
+
+```xml
+<armgroups>
+  <armgroup>
+      <label>all_treated_groups</label>
+      <armlabel>levels</armlabel>
+      <armlabel>gains</armlabel>
+  </armgroup>
+</armgroups>
+```
+
 ### Hypothesis
 
 This is an element that has not got a counterpart in Cavanagh et al (2023) but

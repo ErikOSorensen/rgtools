@@ -351,15 +351,19 @@
                     </xs:complexType>
                 </xs:element>
 
-                <xs:element name="armgroups">
+                <xs:element name="armgroups" minOccurs="0">
                     <xs:annotation>
                         <xs:documentation>Allows the grouping of a list of arms for documenting
-                            hypotheses. </xs:documentation>
+                            hypotheses. It is optional to add the armgroups tag (which should
+                            come after the arms tag. But if armgroups is added, then
+                            at least one concrete armgroup must be added. . </xs:documentation>
                     </xs:annotation>
                     <xs:complexType>
                         <xs:sequence>
-                            <xs:element name="armgroup" type="ArmGroupType">
-                            </xs:element>
+                            <xs:element name="armgroup" type="ArmGroupType" minOccurs="1" maxOccurs="unbounded">
+                                <xs:annotation><xs:documentation>armgroup provides a way to reference a number of arms in the formulation of hypotheses.</xs:documentation> </xs:annotation>
+
+                        </xs:element>
                         </xs:sequence>
                     </xs:complexType>
                 </xs:element>
