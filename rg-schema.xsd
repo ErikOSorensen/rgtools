@@ -213,7 +213,7 @@
                         implemented in two or more ways.</xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="det_exp" type="xs:string">
+            <xs:element name="det_exp" type="xs:string" minOccurs="0">
                 <xs:annotation>
                     <xs:documentation>Paste here any description in the registration/PAP that it is
                         deemed ambiguos enough such two or more implementations can be consistent

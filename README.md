@@ -329,7 +329,7 @@ following elements:
 | LHS | Houtcome | yes |
 | RHS | Houtcome | yes |
 | detailed | binary | yes |
-| det_exp | string | yes |
+| det_exp | string | no |
 | test_heterogeneity | subgrouptest | no |
 |test_feature | string | yes |
 |test_type | string | yes |
@@ -438,7 +438,7 @@ parameter from a complicated model. The elements are
 The `feature` should include a full description of what the estimate entails (including
 free form reference to arms that provide data).
 
-#### detail  
+#### detailed
 
 Binary variable, takes the value of `true` if the hypothesis is deemed to be
 presented with sufficient detail to be tested one specific way. `false` if one
@@ -448,7 +448,7 @@ implemented in two or more ways.
 #### det_exp
 
 String variable, conditional on the hypothesis not being detailed enough
-(`detail = "false"`). Paste here any description in the registration/PAP that it
+(`detailed = "false"`). Paste here any description in the registration/PAP that it
 is deemed ambiguous enough such two or more implementations can be consistent
 with the hypothesis.  
 
@@ -527,7 +527,7 @@ to the `xml <hypotheses>` (plural) element.
   <control_variables>Yes</control_variables>
   <test_feature>Mean</test_feature>
   <test_type>two-sided</test_type>
-  <howto>In an OLS framweork</howto>
+  <howto>In an OLS framework</howto>
   <LHS>
     <Houtcome>
       <OutcomeDifference>
@@ -549,6 +549,7 @@ to the `xml <hypotheses>` (plural) element.
       </HypothesizedValue>
     </Houtcome>
   </RHS>
+  <detailed>true</detailed>
 </hypothesis>
 ```
 
