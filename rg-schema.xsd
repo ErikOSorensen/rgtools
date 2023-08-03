@@ -55,6 +55,25 @@
         </xs:restriction>
     </xs:simpleType>
 
+    <xs:complexType name="JudgmentCallType">
+        <xs:annotation>
+            <xs:documentation>To record a judgment call in the interpretation of a registration.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="concerning" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Single word description of what this call concerns
+                        (populations, arms, interventions, ...).</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="call" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Text with a short description of the judgment made.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
     <xs:complexType name="PopulationType">
         <xs:all>
             <xs:element name="label" type="xs:string" />
@@ -340,6 +359,19 @@
                     </xs:complexType>
                 </xs:element>
 
+                <xs:element name="secondary_outcomes" minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>A potential sequence of secondary outcomes.</xs:documentation>
+                    </xs:annotation>
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="description" type="xs:string"
+                                minOccurs="0" maxOccurs="unbounded">
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+
                 <xs:element name="interventions">
                     <xs:annotation>
                         <xs:documentation>A sequence of all interventions in the trial. Note that a
@@ -404,6 +436,18 @@
                                         under-specification.</xs:documentation>
                                 </xs:annotation>
                             </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+
+                <xs:element name="judgmentcalls" minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>Zero, one or many judgmentcalls for this trial.</xs:documentation>
+                    </xs:annotation>
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="judgment" type="JudgmentCallType" minOccurs="0"
+                                maxOccurs="unbounded" />
                         </xs:sequence>
                     </xs:complexType>
                 </xs:element>

@@ -159,6 +159,23 @@ This is taken from study 1009:
     <unit_analytical>Z-standardized</unit-analytical>
 </main_outcome>
 ```
+### Secondary outcomes
+
+It is optional to code one or more secondary outcomes. Secondary outcomes have a single element, `<description>`.
+If secondary outcomes are coded, they are added as an element right after the main outcomes.
+
+#### Example of coding secondary outcomes
+
+This encodes three secondary outcomes:
+
+```xml
+<secondary_outcomes>
+  <description>Earnings</description>
+  <description>Pension savings</description>
+  <description>Owning mutual funds (binary)</description>
+</secondary_outcomes>
+
+```
 
 
 ### Interventions
@@ -534,3 +551,43 @@ to the `xml <hypotheses>` (plural) element.
   </RHS>
 </hypothesis>
 ```
+
+### Judgment calls
+
+Sometimes it is necessary to code that one or more judgment calls have been
+made, for instance with respect to interpreting what are the arms of the
+experiment, or what are the main outcomes to follow. It is possible to add
+an element `<judgmentcalls>` at the end of the trial (after the hypotheses),
+which contains a sequence of simple judgmentcalls.
+
+A single judgment call contains two elements:
+
+| Element | type | Mandatory? |
+|---------|------|------------|
+| concerning | string | Yes |
+| call   | string | Yes |
+
+#### Concerning
+
+This is a simple string to describe what the judgment call concerns: Examples might
+be "arms", "populations", or "main_outcomes".
+
+#### judgment
+
+This is a more descriptive string that explains what judgment call was made, 
+and a hint of justification.
+
+#### Example of a judgment call
+
+This example would be contained within the `<judgmentcalls>` and `</judgmentcalls>` at the end of the trial description.
+
+```xml
+<judgment>
+  <concerning>arms</concerning>
+  <call>Unclear what three arms crossed with feedback levels would be. We 
+    instead interpret this as three arms with two feedback levels nested 
+    within the feedback arm.</call>
+</judgment>
+```
+
+
