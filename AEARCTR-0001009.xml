@@ -1,5 +1,5 @@
 <trial xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:noNamespaceSchemaLocation="rg-schema.xsd">
+  xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/ErikOSorensen/rgtools/main/rg-schema.xsd">
   <title><![CDATA[Promoting Early Grade Reading & Numeracy in Tanzania: KiuFunza II]]></title>
   <owners>
     <researcher>
