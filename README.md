@@ -472,7 +472,11 @@ the name of a test such as "Mann-Whitney" or "Kolmogorov-Smirnov".
 #### control_variables
 
 Should the main test of the hypothesis control for background characteristics? Yes or No,
-or possibly "Not specified".
+or possibly "Not specified". A hypothesis is coded as 'No' `control_variables` if either the authors explictly state that 
+they will not use any control variables, or if they specify a regression without control variables. A hypothesis is coded 
+as "Not specified' if the authors do not specify a regression and  do not explictly state anything about using or 
+not using controls.  
+
 
 #### mht_family
 
