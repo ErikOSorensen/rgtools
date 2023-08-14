@@ -411,6 +411,11 @@ Again, the comment field can be given free-text to indicate if this
 was unclear or difficult to encode - possibly also an interpretation
 by the coder.
 
+
+For an F-test, there should be two `HOutcome` `OutcomeDifference` in the LHS, and a similar list of `HOutcome` on the RHS. The LHS and the RHS should have equally many elements.  Then the <test_type> would be "F-test".
+
+
+
 ##### Hypothesized value
 
 This is a very simple type intended to encode simple 
