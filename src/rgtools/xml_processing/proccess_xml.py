@@ -75,10 +75,10 @@ class XMLProcessor:
 		self.parse_xml()
 		self.write_csv()
 
-
-xml_processing = XMLProcessor('556_G0_GP.xml')
-xml_processing.run()
-xml_processing.populations_df
-xml_processing.arms_df.to_latex()
-
-xml_processing.trial_object['populations']['population']
+#
+# xml_processing = XMLProcessor('556_G0_GP.xml')
+# xml_processing.run()
+# xml_processing.populations_df
+# xml_processing.arms_df.to_latex()
+#
+# xml_processing.trial_object['populations']['population']
