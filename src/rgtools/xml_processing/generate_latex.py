@@ -152,7 +152,7 @@ class XMLToLatex:
 	def tex_to_pdf(self):
 		absolute_path = os.path.abspath(self.file_path).replace("\\","/")
 		tex_filename = absolute_path.replace(".xml",".tex")
-		subprocess.call(['pdflatex','-interaction','nonstopmode'," -output-directory",tex_filename.replace(".tex",""),tex_filename])
+		subprocess.call(['pdflatex','-interaction','nonstopmode'," -output-directory",os.path.dirname(tex_filename),tex_filename])
 
 
 
