@@ -19,6 +19,11 @@ class XMLProcessor:
 	def get_trial_schema(self,):
 		self.trial_schema = XMLSchema('rg-schema.xsd')
 
+
+	def parse_populations(self):
+		self.populations_df = pd.DataFrame(self.trial_object['populations']['population'])
+
+
 	def parse_interventions(self):
 		self.interventions_df = pd.DataFrame(self.trial_object['interventions']['intervention'])
 
@@ -57,6 +62,7 @@ class XMLProcessor:
 			self.hypotheses_df.to_csv(csv_output)
 
 	def parse_xml(self):
+		self.parse_populations()
 		self.parse_interventions()
 		self.parse_outcomes()
 		self.parse_arms()
@@ -72,3 +78,7 @@ class XMLProcessor:
 
 xml_processing = XMLProcessor('556_G0_GP.xml')
 xml_processing.run()
+xml_processing.populations_df
+xml_processing.arms_df.to_latex()
+
+xml_processing.trial_object['populations']['population']
