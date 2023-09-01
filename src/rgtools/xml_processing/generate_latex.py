@@ -150,7 +150,7 @@ class XMLToLatex:
 			outfile.write("\n".join(self.latex_lines))
 
 	def tex_to_pdf(self):
-		absolute_path = os.path.abspath(self.file_path)
+		absolute_path = os.path.abspath(self.file_path).replace("\\","/")
 		tex_filename = absolute_path.replace(".xml",".tex")
 		pdf_filename = absolute_path.replace(".xml", ".tex")
 		subprocess.call(['pdflatex','-interaction','nonstopmode',tex_filename,pdf_filename])
