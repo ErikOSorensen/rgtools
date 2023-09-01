@@ -1,3 +1,5 @@
+import os.path
+
 from xmlschema import XMLSchema
 from rgtools.xml_processing.proccess_xml import XMLProcessor
 import subprocess
@@ -148,8 +150,9 @@ class XMLToLatex:
 			outfile.write("\n".join(self.latex_lines))
 
 	def tex_to_pdf(self):
-		tex_filename = self.file_path.replace(".xml",".tex")
-		pdf_filename = self.file_path.replace(".xml", ".tex")
+		absolute_path = os.path.abspath(self.file_path)
+		tex_filename = absolute_path.replace(".xml",".tex")
+		pdf_filename = absolute_path.replace(".xml", ".tex")
 		subprocess.call(['pdflatex','-interaction','nonstopmode',tex_filename,pdf_filename])
 
 
