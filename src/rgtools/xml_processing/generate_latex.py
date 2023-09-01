@@ -1,5 +1,6 @@
 from xmlschema import XMLSchema
 from rgtools.xml_processing.proccess_xml import XMLProcessor
+import subprocess
 
 class XMLToLatex:
 	def __init__(self, file_path):
@@ -53,7 +54,7 @@ class XMLToLatex:
 		self.add_to_latex("\\usepackage{tabularx}")
 		self.add_to_latex("\\usepackage[left=1cm, right=1cm,top=1cm,bottom=1cm]{geometry}")
 		self.add_to_latex("\\begin{document}")
-		self.add_to_latex("\\noindent\\textbox{\LargeAEA RCT Trial Registration Summary\hfill}\\textbox{\hfill \# 487}\\\\[6pt]")
+		self.add_to_latex("\\noindent\\textbox{\Large AEA RCT Trial Registration Summary\hfill}\\textbox{\hfill \# 487}\\\\[6pt]")
 		self.add_to_latex("\\textbf{Title:} "+self.xml_processor.trial_object['title'].strip())
 		trial_id = self.xml_processor.trial_object['registration_number']
 		pi = self.xml_processor.trial_object['owners']['researcher'][0]['name']
@@ -133,11 +134,6 @@ class XMLToLatex:
 		# 	self.add_to_latex(f'\subsection{{{self.escape_text(label)}}}')
 		# 	self.add_to_latex(self.itemize_dict(arm))
 
-	def write_latex(self):
-		output_filename = self.file_path.replace(".xml",".tex")
-		with open(output_filename, "w") as outfile:
-			outfile.write("\n".join(self.latex_lines))
-
 	def generate_latex(self):
 		self.initialize_latex()
 		self.add_populations()
@@ -146,12 +142,26 @@ class XMLToLatex:
 		self.add_arms()
 		self.close_latex()
 
+	def write_latex(self):
+		output_filename = self.file_path.replace(".xml",".tex")
+		with open(output_filename, "w") as outfile:
+			outfile.write("\n".join(self.latex_lines))
+
+	def tex_to_pdf(self):
+		tex_filename = self.file_path.replace(".xml",".tex")
+		pdf_filename = self.file_path.replace(".xml", ".tex")
+		subprocess.call(['pdflatex','-interaction','nonstopmode',tex_filename,pdf_filename])
+
+
+
+
 	def run(self):
 		self.xml_processor.run()
 		self.get_trial_schema()
 		self.get_trial_object()
 		self.generate_latex()
 		self.write_latex()
+		self.tex_to_pdf()
 
 # xml_processing = XMLToLatex('556_G0_GP.xml')
 # xml_processing.run()

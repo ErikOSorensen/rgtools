@@ -1,3 +1,5 @@
+import os.path
+
 import pandas as pd
 from xmlschema import XMLSchema
 
@@ -44,21 +46,23 @@ class XMLProcessor:
 		self.hypotheses_df = pd.DataFrame(self.trial_object['hypotheses']['hypothesis'])
 
 	def write_csv(self):
-		output_filepath = self.file_path.replace(".xml","")
+		output_filepath = self.file_path.replace(".xml","")+"_csv"
+		# output_filepath = os.path.join(output_filepath,"G0_csv")
+		os.makedirs(output_filepath,exist_ok=True)
 		if self.interventions_df is not None:
-			csv_output = f'{output_filepath}_interventions.csv'
+			csv_output = f'{output_filepath}/interventions.csv'
 			self.interventions_df.to_csv(csv_output)
 		if self.outcomes_df is not None:
-			csv_output = f'{output_filepath}_interventions.csv'
+			csv_output = f'{output_filepath}/interventions.csv'
 			self.interventions_df.to_csv(csv_output)
 		if self.arms_df is not None:
-			csv_output = f'{output_filepath}_arms.csv'
+			csv_output = f'{output_filepath}/arms.csv'
 			self.interventions_df.to_csv(csv_output)
 		if self.armgroups_df is not None:
-			csv_output = f'{output_filepath}_armgroups.csv'
+			csv_output = f'{output_filepath}/armgroups.csv'
 			self.armgroups_df.to_csv(csv_output)
 		if self.hypotheses_df is not None:
-			csv_output = f'{output_filepath}_hypotheses_df.csv'
+			csv_output = f'{output_filepath}/hypotheses_df.csv'
 			self.hypotheses_df.to_csv(csv_output)
 
 	def parse_xml(self):

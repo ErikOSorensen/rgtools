@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='rgtools',
-    version='1.0.1',
+    version='2.0.0',
     # url='https://github.com/saadgulzar/india_names',
     author='Erik Sorensen',
     description='Repository with the tooling for capturing data from social science registry trials',
