@@ -34,8 +34,8 @@ class XMLProcessor:
 
 	def parse_arms(self):
 		self.arms_df = pd.DataFrame(self.trial_object['arms']['arm'])
-		self.arms_df['population'] = self.arms_df.population.apply(lambda x: "; ".join(x))
-		self.arms_df['intervention'] = self.arms_df.intervention.apply(lambda x: "; ".join(x))
+		self.arms_df['population'] = self.arms_df.population.apply(lambda x: x if not isinstance(x,list) else  "; ".join(x))
+		self.arms_df['intervention'] = self.arms_df.intervention.apply(lambda x: x if not isinstance(x,list) else "; ".join(x))
 
 	def parse_armgroups(self):
 		if 'armgroups' in self.trial_object.keys():

@@ -115,7 +115,7 @@ class XMLToLatex:
 		# 	self.add_to_latex(self.itemize_dict(outcome))
 
 	def add_interventions(self):
-		self.pandas_to_latex(self.xml_processor.interventions_df,
+		self.pandas_to_latex(self.xml_processor.interventions_df[['label','description']],
 							 label_col="label",
 							 column_format="p{0.1cm}p{3.5cm}X",
 							 caption="Interventions")
@@ -126,7 +126,7 @@ class XMLToLatex:
 		# 	self.add_to_latex(self.itemize_dict(intervention))
 
 	def add_arms(self):
-		self.pandas_to_latex(self.xml_processor.arms_df,
+		self.pandas_to_latex(self.xml_processor.arms_df[['label','population','intervention']],
 							 label_col="label",
 							 column_format="p{0.1cm}p{3.5cm}p{3cm}X",
 							 caption="Arms")
