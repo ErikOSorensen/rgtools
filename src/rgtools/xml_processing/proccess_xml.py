@@ -53,11 +53,11 @@ class XMLProcessor:
 			csv_output = f'{output_filepath}/interventions.csv'
 			self.interventions_df.to_csv(csv_output)
 		if self.outcomes_df is not None:
-			csv_output = f'{output_filepath}/interventions.csv'
-			self.interventions_df.to_csv(csv_output)
+			csv_output = f'{output_filepath}/outcomes_df.csv'
+			self.outcomes_df.to_csv(csv_output)
 		if self.arms_df is not None:
 			csv_output = f'{output_filepath}/arms.csv'
-			self.interventions_df.to_csv(csv_output)
+			self.arms_df.to_csv(csv_output)
 		if self.armgroups_df is not None:
 			csv_output = f'{output_filepath}/armgroups.csv'
 			self.armgroups_df.to_csv(csv_output)
