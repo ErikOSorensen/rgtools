@@ -136,12 +136,20 @@ class XMLToLatex:
 		# 	self.add_to_latex(f'\subsection{{{self.escape_text(label)}}}')
 		# 	self.add_to_latex(self.itemize_dict(arm))
 
+	def add_armsgroups(self):
+		self.pandas_to_latex(self.xml_processor.armgroups_df[['label','armblabel']],
+							 label_col="label",
+							 column_format="p{0.1cm}p{3.5cm}X",
+							 caption="Arm Groups")
+
+
 	def generate_latex(self):
 		self.initialize_latex()
 		self.add_populations()
 		self.add_outcomes()
 		self.add_interventions()
 		self.add_arms()
+		self.add_armsgroups()
 		self.close_latex()
 
 	def write_latex(self):
