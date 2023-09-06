@@ -137,10 +137,11 @@ class XMLToLatex:
 		# 	self.add_to_latex(self.itemize_dict(arm))
 
 	def add_armsgroups(self):
-		self.pandas_to_latex(self.xml_processor.armgroups_df[['label','armlabel']],
-							 label_col="label",
-							 column_format="p{0.1cm}p{3.5cm}X",
-							 caption="Arm Groups")
+		if self.xml_processor.armgroups_df is not None:
+			self.pandas_to_latex(self.xml_processor.armgroups_df[['label','armlabel']],
+								 label_col="label",
+								 column_format="p{0.1cm}p{3.5cm}X",
+								 caption="Arm Groups")
 
 
 	def generate_latex(self):
