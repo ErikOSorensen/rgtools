@@ -143,6 +143,13 @@ class XMLToLatex:
 								 column_format="p{0.1cm}p{3.5cm}X",
 								 caption="Arm Groups")
 
+	def add_hypotheses(self):
+		if self.xml_processor.hypotheses_df is not None:
+			self.pandas_to_latex(self.xml_processor.hypotheses_df[['label','description']],
+								 label_col="label",
+								 column_format="p{0.1cm}p{3.5cm}X",
+								 caption="Hypotheses")
+
 
 	def generate_latex(self):
 		self.initialize_latex()
@@ -151,6 +158,7 @@ class XMLToLatex:
 		self.add_interventions()
 		self.add_arms()
 		self.add_armsgroups()
+		self.add_hypotheses()
 		self.close_latex()
 
 	def write_latex(self):
