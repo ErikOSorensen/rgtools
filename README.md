@@ -482,6 +482,10 @@ for difference between them:
 </test_heterogeneity>
 ```
 
+A `separate_effects` being true indicates that there are hypothesis about the effect in each of the indicated subgroups.
+
+A `different_effects` being true indicates that there is a hypothesis about the effect being the same in the indicated subgroups.
+
 #### test_feature
 
 What feature of the outcomes is involved? Most of the time this will be *mean* (which
