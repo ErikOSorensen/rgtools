@@ -200,7 +200,10 @@
         </xs:annotation>
         <xs:sequence>
             <xs:element name="feature" type="xs:string">
-                <xs:annotation><xs:documentation>The feature should include a full description of what the estimate entails. </xs:documentation></xs:annotation>
+                <xs:annotation>
+                    <xs:documentation>The feature should include a full description of what the
+                        estimate entails. </xs:documentation>
+                </xs:annotation>
             </xs:element>
             <xs:element name="comment" type="xs:string" minOccurs="0" />
             <xs:element name="arm" type="xs:string" minOccurs="0" maxOccurs="unbounded">
@@ -346,6 +349,12 @@
                 <xs:element name="data_publication" type="xs:string" />
                 <xs:element name="reports_and_materials" type="xs:string" />
                 <xs:element name="relevant_papers" type="xs:string" />
+                <xs:element name="registration_version" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>The version (indicated at the AEA registry) of the
+                            registration used for coding.</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
 
 
                 <xs:element name="populations">

@@ -32,10 +32,11 @@ be then not have to be filled out.
 The metadata schema aims to extend the schema of [A Metadata Schema for Data from Experiments in the Social Sciences](http://documents.worldbank.org/curated/en/099945502062327217/IDU081c960a8049b504197099ff0d12be0b95375). For the most part, Appendix A of that
 document is informative with respect to documentation and how to use our schema. 
 
-The main elements that need filling in after the pre-populated set is done is the five empty elements
+The main elements that need filling in after the pre-populated set is done are the six empty elements
 that are the provided at the bottom of the output of the `AEAtrials.py` program:
 
 ```xml
+<registration_version> </registration_version>
 <populations>  </populations>
 <main_outcomes> </main_outcomes>
 <interventions> </interventions>
@@ -43,8 +44,13 @@ that are the provided at the bottom of the output of the `AEAtrials.py` program:
 <hypotheses> </hypotheses>
 ```
 
-Note that they are all plural. The intention is to fill in these with lists of the singular version of each
+Note that the last five of these are all plural. The intention is to fill in these with lists of the singular version of each
 of these names, and there are special data types defined for each of these.
+
+### registration_version
+
+The version of the registration used for coding. Indicated as **Version** in the "View Trial History" tab.
+
 
 ### population
 

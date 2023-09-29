@@ -97,6 +97,8 @@ trial_template="""<trial xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 <reports_and_materials>$reports_and_materials</reports_and_materials>
 <relevant_papers>$relevant_papers</relevant_papers>
 
+<registration_version> </registration_version>
+
 <populations>  </populations>
 
 <main_outcomes> </main_outcomes>
