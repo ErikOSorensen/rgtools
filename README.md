@@ -446,10 +446,14 @@ parameter from a complicated model. The elements are
 | feature | string | Yes |
 | comment | string | No  |
 | arm     | string | No  |
+| main_outcome | string | No |
 
 The `feature` should include a full description of what the estimate entails. 
 
 The `arm` reference 0, 1, or more arms (or armgroups) involved in the estimation of the feature.
+
+The `main_outcome` reference 0, 1, or more main outcome labels involved in the estimation of the feature.
+
 
 #### detailed
 
