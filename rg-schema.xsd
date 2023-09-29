@@ -193,9 +193,22 @@
     </xs:complexType>
 
     <xs:complexType name="EstimateType">
+        <xs:annotation>
+            <xs:documentation>This is supposed to be a catch-all type for outcomes that cannot
+                easily be put in the most common forms. It might be a regression coefficient, or it
+                might be a structural parameter from a complicated model.</xs:documentation>
+        </xs:annotation>
         <xs:sequence>
-            <xs:element name="feature" type="xs:string" />
-            <xs:element name="comment" type="xs:string" />
+            <xs:element name="feature" type="xs:string">
+                <xs:annotation><xs:documentation>The feature should include a full description of what the estimate entails. </xs:documentation></xs:annotation>
+            </xs:element>
+            <xs:element name="comment" type="xs:string" minOccurs="0" />
+            <xs:element name="arm" type="xs:string" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>One or more arms or armgroups involved in the estimation of
+                        this feature</xs:documentation>
+                </xs:annotation>
+            </xs:element>
         </xs:sequence>
     </xs:complexType>
 

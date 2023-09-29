@@ -439,9 +439,11 @@ parameter from a complicated model. The elements are
 |---------|------|------------|
 | feature | string | Yes |
 | comment | string | No  |
+| arm     | string | No  |
 
-The `feature` should include a full description of what the estimate entails (including
-free form reference to arms that provide data).
+The `feature` should include a full description of what the estimate entails. 
+
+The `arm` reference 0, 1, or more arms (or armgroups) involved in the estimation of the feature.
 
 #### detailed
 
