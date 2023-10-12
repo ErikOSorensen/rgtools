@@ -56,11 +56,11 @@ class XMLToLatex:
 		self.add_to_latex("\\usepackage{tabularx}")
 		self.add_to_latex("\\usepackage[left=1cm, right=1cm,top=1cm,bottom=1cm]{geometry}")
 		self.add_to_latex("\\begin{document}")
-		self.add_to_latex("\\noindent\\textbox{\Large AEA RCT Trial Registration Summary\hfill}\\textbox{\hfill \# 487}\\\\[6pt]")
+		self.add_to_latex("\\noindent\\textbox{\Large AEA RCT Trial Registration Summary\hfill}\\textbox{\hfill \# "+ self.trial_id+"}\\\\[6pt]")
 		self.add_to_latex("\\textbf{Title:} "+self.xml_processor.trial_object['title'].strip())
-		trial_id = self.xml_processor.trial_object['registration_number']
+		self.trial_id = self.xml_processor.trial_object['registration_number']
 		pi = self.xml_processor.trial_object['owners']['researcher'][0]['name']
-		url_author="\\\\[6pt] \\noindent\\textbox{\small https://www.socialscienceregistry.org/trials/"+trial_id+"\hfill}\\textbox{\hfil  \hfil}\\textbox{\hfill \small Contact: "+pi+" }"
+		url_author="\\\\[6pt] \\noindent\\textbox{\small https://www.socialscienceregistry.org/trials/"+self.trial_id+"\hfill}\\textbox{\hfil  \hfil}\\textbox{\hfill \small Contact: "+pi+" }"
 		self.add_to_latex(url_author)
 
 
