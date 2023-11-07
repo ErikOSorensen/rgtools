@@ -125,6 +125,8 @@ def topics_string_from_trial(trial):
     return output
 
 def person_from_dct(dct, role):
+    if 'email' not in dct.keys():
+        dct['email'] = ""
     dct['role'] = role
     if not dct.get('affiliation'):
         dct['affiliation'] = ""
