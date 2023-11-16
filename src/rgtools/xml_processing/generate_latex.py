@@ -55,8 +55,10 @@ class XMLToLatex:
 		self.add_to_latex("\\usepackage{multirow}")
 		self.add_to_latex("\\usepackage{multicol}")
 		self.add_to_latex("\\usepackage{tabularx}")
-		self.add_to_latex("\\usepackage[left=1cm, right=1cm,top=1cm,bottom=1cm]{geometry}")
+		self.add_to_latex("\\usepackage{ltablex}") # for mult-page tables
+		self.add_to_latex("\\usepackage[left=1cm, right=1cm,top=1cm,bottom=2cm]{geometry}")
 		self.add_to_latex("\\begin{document}")
+		self.add_to_latex("\\keepXColumns") # so ltablex fills the page width
 		self.add_to_latex("\\noindent\\textbox{\Large AEA RCT Trial Registration Summary\hfill}\\textbox{\hfill \# "+ self.trial_id+"}\\\\[6pt]")
 		self.add_to_latex("\\textbf{Title:} "+self.xml_processor.trial_object['title'].strip())
 		pi = self.xml_processor.trial_object['owners']['researcher'][0]['name']
@@ -81,13 +83,13 @@ class XMLToLatex:
 	# 		self.add_to_latex(f'\subsection{{{self.escape_text(label)}}}')
 	# 		self.add_to_latex(self.itemize_dict(population))
 
-	def pandas_to_latex(self,df,label_col=None,column_format=None,caption=None):
+	def pandas_to_latex(self,df,label_col=None,column_format=None,caption=None, escape=True):
 		# if label_col:
 		# 	df[label_col] = df[label_col].apply(self.escape_text)
 		df.index = df.index+1
 		# populations_df.index.names = ["#"]
 		self.add_to_latex("\\footnotesize")
-		latex = df.to_latex(escape=True,column_format=column_format)
+		latex = df.to_latex(escape=escape,column_format=column_format)
 		latex = latex.replace("tabular","tabularx")
 		latex = latex.replace("\\begin{tabularx}","\\begin{tabularx}{\\textwidth}")
 		self.add_to_latex("\section{"+caption+"}")
@@ -145,10 +147,19 @@ class XMLToLatex:
 
 	def add_hypotheses(self):
 		if self.xml_processor.hypotheses_df is not None:
+			self.add_to_latex("\\newpage")
+			self.xml_processor.hypotheses_df['description'] = self.xml_processor.hypotheses_df['description'] + self.xml_processor.hypotheses_df['expr_desc']
+			self.xml_processor.hypotheses_df['description'] = self.xml_processor.hypotheses_df['description'] + \
+															  ' \\newline $' + self.xml_processor.hypotheses_df['expr_string'] +\
+															  '$ \\newline'
+			self.xml_processor.hypotheses_df['label'] = self.xml_processor.hypotheses_df['label'].apply(
+				lambda x: self.escape_text(x))
+			self.xml_processor.hypotheses_df['description'] = self.xml_processor.hypotheses_df['description'].apply(
+				lambda x: self.escape_text(x))
 			self.pandas_to_latex(self.xml_processor.hypotheses_df[['label','description']],
 								 label_col="label",
 								 column_format="p{0.1cm}p{3.5cm}X",
-								 caption="Hypotheses")
+								 caption="Hypotheses",escape=False)
 
 
 	def generate_latex(self):
@@ -182,7 +193,7 @@ class XMLToLatex:
 		self.write_latex()
 		self.tex_to_pdf()
 
-# xml_processing = XMLToLatex('556_G0_GP.xml')
+# xml_processing = XMLToLatex('689_G0_VS.xml')
 # xml_processing.run()
 # # xml_processing.xml_processor.populations_df.to_latex()
 # xml_processing.xml_processor.trial_object['owners']['researcher'][0]['name']

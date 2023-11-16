@@ -1,4 +1,8 @@
 from argparse import ArgumentParser
+
+import pandas as pd
+import logging
+
 from .aea_rct_registry.AEAtrials import read_trials, get_trial_from_number, templatedct_from_trialdct, Template, trial_template
 from .xml_processing.generate_latex import XMLToLatex
 
@@ -10,7 +14,10 @@ get_trials_parser.add_argument('-t', '--trial_id', help="Registration ID from th
 
 generate_latex_parser = subparsers.add_parser("generate_latex_parser", help="Generate Latex of the coding of AEA RCT Registry")
 generate_latex_parser.add_argument('-x', '--xml_path', help="Path to XML File")
+generate_latex_parser.add_argument('-a', '--all',  action='store_true', help="Process G0 for all files")
+generate_latex_parser.add_argument('-d', '--dir', required=False , default="data/01_Production/", help="Process G0 for all files")
 
+logging.basicConfig(level=logging.INFO)
 
 def get_trials(args):
     trials = read_trials()
@@ -29,4 +36,30 @@ def main(args=None):
         get_trials(args)
 
     elif args.command=="generate_latex_parser":
-        XMLToLatex(args.xml_path).run()
+        if not args.all:
+            XMLToLatex(args.xml_path).run()
+        else:
+            df = pd.read_csv('data/RGPB FY24 Workplan - Study Progress Tracker.csv')
+            df = df.loc[df['Meets Goal?']=="Yes",]
+            rct_ids = df.loc[~df['G0 Status'].isin(["In Progress", "Open issues"]),].copy()
+            rct_ids['study_id'] = rct_ids['RCT_ID'].str.replace("AEARCTR-","").astype(int)
+            rct_ids['author'] = ""
+            rct_ids.loc[rct_ids.Assignee=="Gufran",'author'] = "GP"
+            rct_ids.loc[(rct_ids.Assignee=="Both") & ((rct_ids.study_id % 2)==0),'author'] = "GP"
+            rct_ids.loc[rct_ids.Assignee=="Viviane",'author'] = "VS"
+            rct_ids.loc[(rct_ids.Assignee=="Both") & ((rct_ids.study_id % 2)==1),'author'] = "VS"
+            base_dir = "data/01_Production/"
+            rct_ids['path'] = base_dir + rct_ids.study_id.astype(str) + "/" + rct_ids.study_id.astype(str)+"_G0_" + rct_ids.author +".xml"
+            xml_list = rct_ids.path.tolist()
+            failed_xml = []
+            for xml_path in xml_list:
+                try:
+                    XMLToLatex(xml_path).run()
+                    logging.info(f'Completed succesfully: {xml_path}')
+                except:
+                    failed_xml.append(xml_path)
+                    logging.warning(f'Failed: {xml_path}')
+            if len(failed_xml)>0:
+                logging.warning(f'The following XML failed: {", ".join(failed_xml)}')
+
+
