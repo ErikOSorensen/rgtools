@@ -15,7 +15,7 @@ class XMLProcessor:
 		self.armgroups_df = None
 		self.hypotheses_df = None
 		self.heterogeneity_df = pd.DataFrame(columns=["subgroups", "hypothesis_id",	"effect_type"])
-		self.judgementcalls_df = None
+		self.judgmentcalls_df = None
 
 
 	def get_trial_object(self):
