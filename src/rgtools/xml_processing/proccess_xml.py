@@ -58,12 +58,12 @@ class XMLProcessor:
 		if len(heterogeneity_df_list)>0:
 			heterogeneity_df = pd.concat(heterogeneity_df_list)
 			heterogeneity_df = heterogeneity_df.melt(id_vars=['subgroups','hypothesis_id'],var_name='effect_type')
-			heterogeneity_df = heterogeneity_df[heterogeneity_df.value].drop('value',axis=1)
+			self.heterogeneity_df = heterogeneity_df[heterogeneity_df.value].drop('value',axis=1)
 		hypotheses_df = self.hypotheses_df
 		main_df = (hypotheses_df[['label']]).copy().rename({'label': 'hypothesis_id'}, axis=1)
 		main_df['subgroups'] = 'main'
 		main_df['effect_type'] = ''
-		self.heterogeneity_df = pd.concat([main_df, heterogeneity_df])
+		self.heterogeneity_df = pd.concat([main_df, self.heterogeneity_df])
 
 	def parse_hypotheses(self):
 		self.hypotheses_df = pd.DataFrame(self.trial_object['hypotheses']['hypothesis'])
