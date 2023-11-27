@@ -172,8 +172,8 @@ class HypothesesProcessor:
 		elif l_is_single and r_is_single and l_is_out_diff and r_is_out_diff:
 			lexp, outcome_list1, arm_list1 = self.extract_single_exp(self.lhoutcome)
 			rexp, outcome_list2, arm_list2 = self.extract_single_exp(self.rhoutcome)
-			outcome_list = list(set([outcome_list1, outcome_list2]))
-			arm_list = list(set([arm_list1, arm_list2]))
+			outcome_list = outcome_list1 + outcome_list2
+			arm_list = arm_list1 + arm_list2
 			return 'double_exp_diff', f'{lexp} = {rexp}', "", ", ".join(outcome_list), ", ".join(arm_list)
 
 		# Beta = 0
