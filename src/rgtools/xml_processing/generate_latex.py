@@ -161,6 +161,25 @@ class XMLToLatex:
 								 column_format="p{0.1cm}p{3.5cm}X",
 								 caption="Hypotheses",escape=False)
 
+	def add_heterogeneity(self):
+		if self.xml_processor.heterogeneity_df is not None:
+			heterogeneity_df = self.xml_processor.heterogeneity_df
+			if heterogeneity_df is not None:
+				heterogeneity_df = heterogeneity_df.groupby(['subgroups','effect_type'], as_index=False)['hypothesis_id'].apply(lambda x: ', '.join(x))
+				heterogeneity_df = heterogeneity_df.loc[heterogeneity_df.subgroups!='main',:]
+				self.pandas_to_latex(heterogeneity_df,
+									 label_col="label",
+									 column_format="p{0.1cm}Xp{2cm}X",
+									 caption="Heterogeneity")
+
+	def add_judgmentcalls(self):
+		if self.xml_processor.judgmentcalls_df is not None:
+			judgmentcalls_df = self.xml_processor.judgmentcalls_df
+			if judgmentcalls_df is not None:
+				self.pandas_to_latex(judgmentcalls_df,
+									 label_col="label",
+									 column_format="p{0.1cm}p{3.5cm}X",
+									 caption="Judgment Calls")
 
 	def generate_latex(self):
 		self.initialize_latex()
@@ -170,6 +189,8 @@ class XMLToLatex:
 		self.add_arms()
 		self.add_armsgroups()
 		self.add_hypotheses()
+		self.add_heterogeneity()
+		self.add_judgmentcalls()
 		self.close_latex()
 
 	def write_latex(self):
@@ -193,7 +214,7 @@ class XMLToLatex:
 		self.write_latex()
 		self.tex_to_pdf()
 
-# xml_processing = XMLToLatex('689_G0_VS.xml')
+# xml_processing = XMLToLatex('641_G0_GP.xml')
 # xml_processing.run()
-# # xml_processing.xml_processor.populations_df.to_latex()
+# xml_processing.xml_processor.populations_df.to_latex()
 # xml_processing.xml_processor.trial_object['owners']['researcher'][0]['name']

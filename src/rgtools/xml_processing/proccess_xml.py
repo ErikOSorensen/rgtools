@@ -14,6 +14,9 @@ class XMLProcessor:
 		self.arms_df = None
 		self.armgroups_df = None
 		self.hypotheses_df = None
+		self.heterogeneity_df = pd.DataFrame(columns=["subgroups", "hypothesis_id",	"effect_type"])
+		self.judgementcalls_df = None
+
 
 	def get_trial_object(self):
 		self.trial_object = self.trial_schema.to_dict(self.file_path)
@@ -42,6 +45,26 @@ class XMLProcessor:
 			self.armgroups_df = pd.DataFrame(self.trial_object['armgroups']['armgroup'])
 			self.armgroups_df['armlabel'] = self.armgroups_df.armlabel.apply(lambda x: "; ".join(x))
 
+	def parse_heterogeneity(self):
+		heterogeneity_df_list = []
+		hypotheses = self.trial_object['hypotheses']['hypothesis']
+		for i, hypothesis in enumerate(hypotheses):
+			hypothesis = hypotheses[i]
+			hypothesis_label = hypothesis['label']
+			if 'test_heterogeneity' in hypothesis.keys():
+				heterogeneity_df = pd.DataFrame(hypothesis['test_heterogeneity']['subgrouptest'])
+				heterogeneity_df['hypothesis_id'] = hypothesis_label
+				heterogeneity_df_list.append(heterogeneity_df)
+		if len(heterogeneity_df_list)>0:
+			heterogeneity_df = pd.concat(heterogeneity_df_list)
+			heterogeneity_df = heterogeneity_df.melt(id_vars=['subgroups','hypothesis_id'],var_name='effect_type')
+			heterogeneity_df = heterogeneity_df[heterogeneity_df.value].drop('value',axis=1)
+		hypotheses_df = self.hypotheses_df
+		main_df = (hypotheses_df[['label']]).copy().rename({'label': 'hypothesis_id'}, axis=1)
+		main_df['subgroups'] = 'main'
+		main_df['effect_type'] = ''
+		self.heterogeneity_df = pd.concat([main_df, heterogeneity_df])
+
 	def parse_hypotheses(self):
 		self.hypotheses_df = pd.DataFrame(self.trial_object['hypotheses']['hypothesis'])
 		self.hypotheses_df['h_type'] = ""
@@ -50,6 +73,9 @@ class XMLProcessor:
 		for h_num, row in self.hypotheses_df.iterrows():
 			h_processor = HypothesesProcessor(self.trial_object['hypotheses'], h_num)
 			self.hypotheses_df.loc[h_num,['h_type', 'expr_string', 'expr_desc']] = h_processor.extract_hypothesis()
+	def parse_judgementcalls(self):
+		if 'judgmentcalls' in self.trial_object.keys():
+			self.judgmentcalls_df = pd.DataFrame(self.trial_object['judgmentcalls']['judgment'])
 
 	def write_csv(self):
 		output_filepath = self.file_path.replace(".xml","")+"_csv"
@@ -70,6 +96,13 @@ class XMLProcessor:
 		if self.hypotheses_df is not None:
 			csv_output = f'{output_filepath}/hypotheses_df.csv'
 			self.hypotheses_df.to_csv(csv_output)
+		if self.heterogeneity_df.shape[0]>0:
+			csv_output = f'{output_filepath}/heterogeneity_df.csv'
+			self.heterogeneity_df.to_csv(csv_output)
+		if self.judgementcalls_df is not None:
+			csv_output = f'{output_filepath}/judgementcalls_df.csv'
+			self.judgementcalls_df.to_csv(csv_output)
+
 
 	def parse_xml(self):
 		self.parse_populations()
@@ -78,6 +111,8 @@ class XMLProcessor:
 		self.parse_arms()
 		self.parse_armgroups()
 		self.parse_hypotheses()
+		self.parse_heterogeneity()
+		self.parse_judgementcalls()
 
 	def run(self):
 		self.get_trial_schema()
@@ -157,9 +192,14 @@ class HypothesesProcessor:
 
 
 
-# 633: joint-test, 641: feature, 610: interaction
-# xml_processing = XMLProcessor('610_G0_GP.xml')
+# 633: joint-test, 641: feature & heterogeneity, 610: interaction
+# xml_processing = XMLProcessor('641_G0_GP.xml')
 # xml_processing.run()
+# heterogeneity_df = xml_processing.heterogeneity_df
+#
+# zz = heterogeneity_df.groupby('subgroups', as_index=False)['hypothesis_id'].apply(lambda x: ', '.join(x))
+
+# pd.DataFrame(xml_processing.trial_object['hypotheses']['hypothesis'][0]['test_heterogeneity']['subgrouptest'])
 # h_object = HypothesesProcessor( xml_processing.trial_object['hypotheses'], 0)
 # a = xml_processing.hypotheses_df
 
