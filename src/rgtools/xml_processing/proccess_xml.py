@@ -202,8 +202,8 @@ class HypothesesProcessor:
 
 
 # 633: joint-test, 641: feature & heterogeneity, 610: interaction
-xml_processing = XMLProcessor('633_G0_GP.xml')
-xml_processing.run()
+# xml_processing = XMLProcessor('633_G0_GP.xml')
+# xml_processing.run()
 # heterogeneity_df = xml_processing.heterogeneity_df
 #
 # zz = heterogeneity_df.groupby('subgroups', as_index=False)['hypothesis_id'].apply(lambda x: ', '.join(x))
