@@ -12,7 +12,7 @@ class XMLProcessor:
 		self.interventions_df = None
 		self.outcomes_df = None
 		self.arms_df = None
-		self.armgroups_df = pd.DataFrame()
+		self.armgroups_df = pd.DataFrame(columns=['label', 'armlabel'])
 		self.secondaryoutcomes_df = pd.DataFrame(columns=['description'])
 		self.hypotheses_df = None
 		self.heterogeneity_df = pd.DataFrame(columns=["subgroups", "hypothesis_id",	"effect_type"])
