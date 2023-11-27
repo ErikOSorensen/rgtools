@@ -12,7 +12,7 @@ class XMLProcessor:
 		self.interventions_df = None
 		self.outcomes_df = None
 		self.arms_df = None
-		self.armgroups_df = None
+		self.secondaryoutcomes_df = pd.DataFrame(columns=['description'])
 		self.hypotheses_df = None
 		self.heterogeneity_df = pd.DataFrame(columns=["subgroups", "hypothesis_id",	"effect_type"])
 		self.judgmentcalls_df = None
@@ -34,6 +34,10 @@ class XMLProcessor:
 
 	def parse_outcomes(self):
 		self.outcomes_df = pd.DataFrame(self.trial_object['main_outcomes']['main_outcome'])
+
+	def parse_secondaryoutcomes(self):
+		if 'secondary_outcomes' in self.trial_object.keys():
+			self.secondaryoutcomes_df = pd.DataFrame(self.trial_object['secondary_outcomes']['description'], columns=['description'])
 
 	def parse_arms(self):
 		self.arms_df = pd.DataFrame(self.trial_object['arms']['arm'])
@@ -87,6 +91,9 @@ class XMLProcessor:
 		if self.outcomes_df is not None:
 			csv_output = f'{output_filepath}/outcomes_df.csv'
 			self.outcomes_df.to_csv(csv_output)
+		if self.secondaryoutcomes_df is not None:
+			csv_output = f'{output_filepath}/secondaryoutcomes_df.csv'
+			self.secondaryoutcomes_df.to_csv(csv_output)
 		if self.arms_df is not None:
 			csv_output = f'{output_filepath}/arms.csv'
 			self.arms_df.to_csv(csv_output)
@@ -96,7 +103,7 @@ class XMLProcessor:
 		if self.hypotheses_df is not None:
 			csv_output = f'{output_filepath}/hypotheses_df.csv'
 			self.hypotheses_df.to_csv(csv_output)
-		if self.heterogeneity_df.shape[0]>0:
+		if self.heterogeneity_df is not None:
 			csv_output = f'{output_filepath}/heterogeneity_df.csv'
 			self.heterogeneity_df.to_csv(csv_output)
 		if self.judgmentcalls_df is not None:
@@ -108,6 +115,7 @@ class XMLProcessor:
 		self.parse_populations()
 		self.parse_interventions()
 		self.parse_outcomes()
+		self.parse_secondaryoutcomes()
 		self.parse_arms()
 		self.parse_armgroups()
 		self.parse_hypotheses()
@@ -202,8 +210,10 @@ class HypothesesProcessor:
 
 
 # 633: joint-test, 641: feature & heterogeneity, 610: interaction
-# xml_processing = XMLProcessor('633_G0_GP.xml')
+# xml_processing = XMLProcessor('556_G0_GP.xml')
 # xml_processing.run()
+# xml_processing.trial_object['secondary_outcomes']
+
 # heterogeneity_df = xml_processing.heterogeneity_df
 #
 # zz = heterogeneity_df.groupby('subgroups', as_index=False)['hypothesis_id'].apply(lambda x: ', '.join(x))
