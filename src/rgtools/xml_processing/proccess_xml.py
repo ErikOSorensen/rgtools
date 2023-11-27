@@ -72,7 +72,7 @@ class XMLProcessor:
 		self.hypotheses_df['expr_desc'] = ""
 		for h_num, row in self.hypotheses_df.iterrows():
 			h_processor = HypothesesProcessor(self.trial_object['hypotheses'], h_num)
-			self.hypotheses_df.loc[h_num,['h_type', 'expr_string', 'expr_desc']] = h_processor.extract_hypothesis()
+			self.hypotheses_df.loc[h_num,['h_type', 'expr_string', 'expr_desc', 'outcomes', 'arms']] = h_processor.extract_hypothesis()
 	def parse_judgementcalls(self):
 		if 'judgmentcalls' in self.trial_object.keys():
 			self.judgmentcalls_df = pd.DataFrame(self.trial_object['judgmentcalls']['judgment'])
@@ -138,7 +138,7 @@ class HypothesesProcessor:
 		ref_outcome = houtcome[0]['OutcomeDifference']['reference']['outcome']
 		ref_arm = houtcome[0]['OutcomeDifference']['reference']['arm']
 		expectation_string = f'E[{first_outcome} | {first_arm}] - E[{ref_outcome} | {ref_arm}]'
-		return expectation_string
+		return expectation_string, list(set([first_outcome,ref_outcome])), list(set([first_arm,ref_arm]))
 
 	def extract_num_val(self, houtcome):
 		return int(houtcome[0]['HypothesizedValue']['number'])
@@ -149,7 +149,7 @@ class HypothesesProcessor:
 		arms = "" if not 'arm' in houtcome[0]['Estimate'].keys() else ", ".join(houtcome[0]['Estimate']['arm'])
 		outcome = "" if not 'main_outcome' in houtcome[0]['Estimate'].keys() else ", ".join(houtcome[0]['Estimate']['main_outcome'])
 		expr_desc = f'Coefficient: {feature}. Arm(s): {arms}. Outcome: {outcome}'
-		return expr_desc
+		return expr_desc, outcome, arms
 
 	def get_hypothesis_type(self, houtcome):
 		is_single = len(houtcome) == 1
@@ -164,37 +164,46 @@ class HypothesesProcessor:
 
 		# E[outcome | T1] - E[outcome | T0] = 0
 		if l_is_single and r_is_single and l_is_out_diff and r_is_hval:
-			lexp = self.extract_single_exp(self.lhoutcome)
+			lexp, outcome_list, arm_list = self.extract_single_exp(self.lhoutcome)
 			rhval = self.extract_num_val(self.rhoutcome)
-			return 'single_exp_diff', f'{lexp} = {rhval}', ""
+			return 'single_exp_diff', f'{lexp} = {rhval}', "", ", ".join(outcome_list), ", ".join(arm_list)
 
 		# E[outcome | T1] - E[outcome | T0] = E[outcome | T3] - E[outcome | T2]
 		elif l_is_single and r_is_single and l_is_out_diff and r_is_out_diff:
-			lexp = self.extract_single_exp(self.lhoutcome)
-			rexp = self.extract_single_exp(self.rhoutcome)
-			return 'double_exp_diff', f'{lexp} = {rexp}', ""
+			lexp, outcome_list1, arm_list1 = self.extract_single_exp(self.lhoutcome)
+			rexp, outcome_list2, arm_list2 = self.extract_single_exp(self.rhoutcome)
+			outcome_list = list(set([outcome_list1, outcome_list2]))
+			arm_list = list(set([arm_list1, arm_list2]))
+			return 'double_exp_diff', f'{lexp} = {rexp}', "", ", ".join(outcome_list), ", ".join(arm_list)
 
 		# Beta = 0
 		elif l_is_single and r_is_single and l_is_estimate and r_is_hval:
-			expr_desc = self.extract_feature(self.lhoutcome)
+			expr_desc, outcome, arms = self.extract_feature(self.lhoutcome)
 			rhval = self.extract_num_val(self.rhoutcome)
-			return 'feature', f'Coefficient = {rhval}', expr_desc
+			return 'feature', f'Coefficient = {rhval}', expr_desc, outcome, arms
 
 		# E[outcome | T1] - E[outcome | T0] = E[outcome | T2] - E[outcome | T0] = 0
 		elif not l_is_single and not r_is_single and l_is_out_diff and r_is_hval:
 			lexp_list = []
+			outcome_list = []
+			arm_list = []
 			for index, houtcome in enumerate(self.lhoutcome):
-				lexp_list.append(self.extract_single_exp([houtcome]))
+				lexp, outcomes, arms = self.extract_single_exp([houtcome])
+				lexp_list.append(lexp)
+				outcome_list = outcome_list + outcomes
+				arm_list = arm_list + arms
 			lexp = " = ".join(lexp_list)
+			outcome_list = list(set(outcome_list))
+			arm_list = list(set(arm_list))
 			rhval = self.extract_num_val(self.rhoutcome)
-			return 'joint-test', f'{lexp} = {rhval}', ""
+			return 'joint-test', f'{lexp} = {rhval}', "", ", ".join(outcome_list), ", ".join(arm_list)
 
 
 
 
 # 633: joint-test, 641: feature & heterogeneity, 610: interaction
-# xml_processing = XMLProcessor('641_G0_GP.xml')
-# xml_processing.run()
+xml_processing = XMLProcessor('633_G0_GP.xml')
+xml_processing.run()
 # heterogeneity_df = xml_processing.heterogeneity_df
 #
 # zz = heterogeneity_df.groupby('subgroups', as_index=False)['hypothesis_id'].apply(lambda x: ', '.join(x))
