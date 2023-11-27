@@ -99,9 +99,9 @@ class XMLProcessor:
 		if self.heterogeneity_df.shape[0]>0:
 			csv_output = f'{output_filepath}/heterogeneity_df.csv'
 			self.heterogeneity_df.to_csv(csv_output)
-		if self.judgementcalls_df is not None:
+		if self.judgmentcalls_df is not None:
 			csv_output = f'{output_filepath}/judgementcalls_df.csv'
-			self.judgementcalls_df.to_csv(csv_output)
+			self.judgmentcalls_df.to_csv(csv_output)
 
 
 	def parse_xml(self):
