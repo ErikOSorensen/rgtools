@@ -62,7 +62,7 @@ class XMLToLatex:
 		self.add_to_latex("\\noindent\\textbox{\Large AEA RCT Trial Registration Summary\hfill}\\textbox{\hfill \# "+ self.trial_id+"}\\\\[6pt]")
 		self.add_to_latex("\\textbf{Title:} "+self.xml_processor.trial_object['title'].strip())
 		pi = self.xml_processor.trial_object['owners']['researcher'][0]['name']
-		url_author="\\\\[6pt] \\noindent\\textbox{\small https://www.socialscienceregistry.org/trials/"+self.trial_id+"\hfill}\\textbox{\hfil  \hfil}\\textbox{\hfill \small Contact: "+pi+" }"
+		url_author="\\\\[6pt] \\noindent\\textbox{\small https://www.socialscienceregistry.org/trials/"+self.trial_id+"\hfill}\\textbox{\hfil  \hfil}\\textbox{\hfill \small "" }"
 		self.add_to_latex(url_author)
 
 
