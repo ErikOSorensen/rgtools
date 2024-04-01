@@ -41,7 +41,7 @@ def main(args=None):
         else:
             df = pd.read_csv('data/RGPB FY24 Workplan - Study Progress Tracker.csv')
             df = df.loc[df['Meets Goal?']=="Yes",]
-            df = df.loc[df['Study Status']=="Yes",]
+            df = df.loc[df['Study Status']=="Complete",]
             rct_ids = df.copy()
             rct_ids['study_id'] = rct_ids['RCT_ID'].str.replace("AEARCTR-","").astype(int)
             rct_ids['author'] = ""
