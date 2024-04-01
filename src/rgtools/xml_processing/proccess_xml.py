@@ -86,6 +86,9 @@ class XMLProcessor:
 		output_filepath = self.file_path.replace(".xml","")+"_csv"
 		# output_filepath = os.path.join(output_filepath,"G0_csv")
 		os.makedirs(output_filepath,exist_ok=True)
+		if self.populations_df is not None:
+			csv_output = f'{output_filepath}/populations.csv'
+			self.populations_df.to_csv(csv_output)
 		if self.interventions_df is not None:
 			csv_output = f'{output_filepath}/interventions.csv'
 			self.interventions_df.to_csv(csv_output)
@@ -211,7 +214,7 @@ class HypothesesProcessor:
 
 
 # 633: joint-test, 641: feature & heterogeneity, 610: interaction
-# xml_processing = XMLProcessor('556_G0_GP.xml')
+# xml_processing = XMLProcessor('data/556_G0_GP.xml')
 # xml_processing.run()
 # xml_processing.trial_object['secondary_outcomes']
 
