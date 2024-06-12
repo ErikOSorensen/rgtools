@@ -15,7 +15,7 @@ class Reports:
                              "f_nf": os.path.join(form_dir, "Found","Results Reports","onlyhetnotfound_postdryrun_fillable.pdf"),
                              "f_f": os.path.join(form_dir, "Found","Results Reports","allfound_postdryrun_fillable.pdf")}
 
-        self.front_cover_loc = os.path.join(form_dir, "Front Cover","Results Reports","front_cover.pdf")
+        self.front_cover_loc = os.path.join(form_dir, "Found","Results Reports","RCT Registry Results Report _ Cover page.pdf")
         self.found_cover_loc = os.path.join(form_dir, "Found","Results Reports","blank page_found.pdf")
         self.notfound_cover_loc = os.path.join(form_dir, "Not Found","Results Reports","blank page_notfound.pdf")
 
@@ -76,7 +76,7 @@ class Reports:
             else 'nf_nf', axis=1)
 
         self.main_het_found['hyp_num'] = range(len(self.main_het_found))
-        self.main_het_found['page_num'] = self.main_het_found['hyp_num'] + 3 # Add 3 to account for 2 cover pages and 1-index
+        self.main_het_found['page_num'] = self.main_het_found['hyp_num'] + 2 # Add 3 to account for 2 cover pages and 1-index
         self.main_het_found['template_type'] = self.main_het_found.template.apply(lambda x: x[0])
 
         unqiue_templates = self.main_het_found['template_type'].unique()
@@ -114,13 +114,18 @@ class Reports:
         :param type:
         :return:
         '''
-        multi_doc = fitz.open()
+        multi_doc = fitz.open(self.front_cover_loc)
+        first_cover_loc = self.notfound_cover_loc if self.main_het_found.template_type.iloc[0]=="n" else self.found_cover_loc
+        first_cover = fitz.open(first_cover_loc)
+        multi_doc.insert_pdf(first_cover)
         for type in ["nf_f","nf_nf","f_f","f_nf"]:
             template_loc = self.template_loc[type]
             hyp_list = self.hyp_categories[type].index
             hyp_df = self.hyp_categories[type]
             for doc_index in range(len(hyp_list)):
-                page_num = hyp_df.loc[hyp_df.index==hyp_list[doc_index]]['hyp_num'].iloc[0]
+                page_num = hyp_df.loc[hyp_df.index==hyp_list[doc_index]]['page_num'].iloc[0]
+                if hyp_df.loc[hyp_df.index==hyp_list[doc_index]]['template_change'].iloc[0]:
+                    multi_doc.insert_pdf(fitz.open(self.found_cover_loc))
                 page_num = int(page_num)
                 doc = fitz.open(template_loc)
                 for widget in doc[0].widgets():
@@ -154,7 +159,8 @@ class Reports:
     def insert_hypotheses(self,type="nf_nf"):
         hyp_df = self.hyp_categories[type]
         for doc_index, hyp_id in enumerate(hyp_df.index):
-            page_num = hyp_df.hyp_num.iloc[doc_index]
+            page_num = hyp_df.page_num.iloc[doc_index]
+            hyp_num = hyp_df.hyp_num.iloc[doc_index]
             page = self.report_doc[int(page_num)]
 
             main_df, het_df = self.get_hypotheses_heterogeneity(hyp_id)
@@ -162,7 +168,7 @@ class Reports:
             hypothesis_description = main_df.description.iloc[0]
 
             coords = self.coords["found" if type in ["f_f","f_nf"] else "notfound"]
-            self.add_text(page, coords["hypothesis_num"], str(page_num + 1))
+            self.add_text(page, coords["hypothesis_num"], str(hyp_num + 1))
             self.add_text(page, coords["hypothesis_description"] , hypothesis_description)
             if type in ["f_f","nf_f"]:
                 results = f'= {main_df["out_units"].iloc[0]}, SE = {main_df["SE"].iloc[0]}'
@@ -218,5 +224,5 @@ class Reports:
 
 
 
-# self = Reports()
-# self.run()
+self = Reports()
+self.run()
