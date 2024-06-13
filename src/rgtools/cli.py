@@ -70,7 +70,7 @@ def main(args=None):
             if len(failed_xml)>0:
                 logging.warning(f'The following XML failed: {", ".join(failed_xml)}')
 
-    elif args.command == "generate_reports":
+    elif args.command == "generate_report":
         Reports(args.xml_path).run()
 
 
