@@ -8,7 +8,7 @@ from rgtools.xml_processing.proccess_xml import XMLProcessor
 
 
 class Reports:
-    def __init__(self,xml_directory="data/1191/1191_G0_VS.xml",form_dir=os.path.join("data","04_templates")):
+    def __init__(self,xml_directory,form_dir=os.path.join("data","04_templates")):
         self.xml_directory = xml_directory
         self.get_paths()
         self.get_trial_info()
@@ -269,9 +269,9 @@ class Reports:
         # self.report_doc.save(f'data/{self.study_id}/{self.study_id}_report.pdf')
         self.report_doc.save(f'data/results_report.pdf')
 
-
-
-
-
-self = Reports()
-self.run()
+#
+#
+#
+#
+# self = Reports(xml_directory="data/1191/1191_G0_VS.xml")
+# self.run()
