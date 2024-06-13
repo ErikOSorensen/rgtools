@@ -267,7 +267,7 @@ class Reports:
             self.insert_hypotheses("f_f")
 
         # self.report_doc.save(f'data/{self.study_id}/{self.study_id}_report.pdf')
-        self.report_doc.save(f'data/results_report.pdf')
+        self.report_doc.save(os.path.join(self.study_directory,f'{self.study_id}_report.pdf'))
 
 #
 #
