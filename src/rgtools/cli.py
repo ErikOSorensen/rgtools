@@ -5,6 +5,7 @@ import logging
 
 from .aea_rct_registry.AEAtrials import read_trials, get_trial_from_number, templatedct_from_trialdct, Template, trial_template
 from .xml_processing.generate_latex import XMLToLatex
+from .reports.reports import Reports
 
 parser = ArgumentParser(prog='rgtools')
 subparsers = parser.add_subparsers(dest="command", required=True)
@@ -16,6 +17,12 @@ generate_latex_parser = subparsers.add_parser("generate_latex_parser", help="Gen
 generate_latex_parser.add_argument('-x', '--xml_path', help="Path to XML File")
 generate_latex_parser.add_argument('-a', '--all',  action='store_true', help="Process G0 for all files")
 generate_latex_parser.add_argument('-d', '--dir', required=False , default="data/01_Production/", help="Process G0 for all files")
+
+
+generate_report_parser = subparsers.add_parser("generate_report", help="Generate Filled-in Report of the study")
+generate_report_parser.add_argument('-x', '--xml_path', help="Path to XML File")
+
+
 
 logging.basicConfig(level=logging.INFO)
 
@@ -62,5 +69,11 @@ def main(args=None):
                     logging.warning(f'Failed: {xml_path}')
             if len(failed_xml)>0:
                 logging.warning(f'The following XML failed: {", ".join(failed_xml)}')
+
+    elif args.command == "generate_reports":
+        Reports(args.xml_path).run()
+
+
+
 
 
