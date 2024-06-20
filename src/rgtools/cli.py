@@ -53,9 +53,8 @@ def main(args=None):
             rct_ids['study_id'] = rct_ids['RCT_ID'].str.replace("AEARCTR-","").astype(int)
             rct_ids['author'] = ""
             rct_ids.loc[rct_ids.Assignee=="Gufran",'author'] = "GP"
-            rct_ids.loc[(rct_ids.Assignee=="Both") & ((rct_ids.study_id % 2)==0),'author'] = "GP"
             rct_ids.loc[rct_ids.Assignee=="Viviane",'author'] = "VS"
-            rct_ids.loc[(rct_ids.Assignee=="Both") & ((rct_ids.study_id % 2)==1),'author'] = "VS"
+            rct_ids.loc[(rct_ids.Assignee=="Both"),'author'] = "Both"
             base_dir = "data/01_Production/"
             rct_ids['path'] = base_dir + rct_ids.study_id.astype(str) + "/" + rct_ids.study_id.astype(str)+"_G0_" + rct_ids.author +".xml"
             xml_list = rct_ids.path.tolist()
