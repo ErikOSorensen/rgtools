@@ -20,7 +20,11 @@ generate_latex_parser.add_argument('-d', '--dir', required=False , default="data
 
 
 generate_report_parser = subparsers.add_parser("generate_report", help="Generate Filled-in Report of the study")
+generate_report_parser.add_argument('-m', '--meta_path', help="Path to Hypothesis Analytical Dataset", required=True)
+
 generate_report_parser.add_argument('-x', '--xml_path', help="Path to XML File")
+
+generate_report_parser.add_argument('-a', '--all',  action='store_true', help="Generate report for all files")
 
 
 
@@ -70,7 +74,32 @@ def main(args=None):
                 logging.warning(f'The following XML failed: {", ".join(failed_xml)}')
 
     elif args.command == "generate_report":
-        Reports(args.xml_path).run()
+        if not args.all:
+            Reports(args.xml_path, args.meta_path).run()
+        else:
+            df = pd.read_csv('data/RGPB FY24 Workplan - Study Progress Tracker.csv')
+            df = df.loc[df['Meets Goal?']=="Yes",]
+            df = df.loc[df['Study Status']=="Complete",]
+            rct_ids = df.copy()
+            rct_ids['study_id'] = rct_ids['RCT_ID'].str.replace("AEARCTR-","").astype(int)
+            rct_ids['author'] = ""
+            rct_ids.loc[rct_ids.Assignee=="Gufran",'author'] = "GP"
+            rct_ids.loc[rct_ids.Assignee=="Viviane",'author'] = "VS"
+            rct_ids.loc[(rct_ids.Assignee=="Both"),'author'] = "Both"
+            base_dir = "data/01_Production/"
+            rct_ids['path'] = base_dir + rct_ids.study_id.astype(str) + "/" + rct_ids.study_id.astype(str)+"_G0_" + rct_ids.author +".xml"
+            xml_list = rct_ids.path.tolist()
+            failed_xml = []
+            for xml_path in xml_list:
+                try:
+                    Reports(xml_path, args.meta_path).run()
+                    logging.info(f'Completed succesfully: {xml_path}')
+                except:
+                    failed_xml.append(xml_path)
+                    logging.warning(f'Failed: {xml_path}')
+            if len(failed_xml)>0:
+                logging.warning(f'The following XML failed: {", ".join(failed_xml)}')
+
 
 
 
