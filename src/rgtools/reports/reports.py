@@ -333,13 +333,8 @@ class Reports:
         self.hypotheses.main_het_found.to_csv(os.path.join(self.study.study_directory,f'{self.study.study_id}_report_metadata.csv'))
 
 
-self = Reports(xml_directory="data/01_Production/291/291_G0_GP.xml",meta_path="data/06_analytical/01_batch1/to_keep_expansions_0a2258971d55d3850c85cc88bcba04d8.csv")
-self.run()
-# zz = self.hypotheses.reference_df.estimate
-# aa = zz.iloc[1]
-# np.isnan(aa)
-# type(aa)
-
+# self = Reports(xml_directory="data/01_Production/291/291_G0_GP.xml",meta_path="data/06_analytical/01_batch1/to_keep_expansions_0a2258971d55d3850c85cc88bcba04d8.csv")
+# self.run()
 # Reports(xml_directory="data/01_Production/291/291_G0_GP.xml").run()
 # Reports(xml_directory="data/01_Production/604/604_G0_GP.xml").run()
 # Reports(xml_directory="data/01_Production/558/558_G0_GP.xml").run()
