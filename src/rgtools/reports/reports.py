@@ -268,7 +268,7 @@ class Reports:
 
                 p_value = main_df["p_val"].iloc[0]
                 p_value = "" if pd.isna(p_value) else str(p_value)
-                p_value = f'p_value = {str(p_value)}' if p_value.replace('.','',1).isdigit() else p_value
+                p_value = f'p-value = {str(p_value)}' if p_value.replace('.','',1).isdigit() else p_value
                 results = results + f', {p_value}' if p_value != "" else results
                 self.add_text(page, coords["results"], results)
                 self.add_text(page, coords["location"], str(main_df["location"].iloc[0]))
