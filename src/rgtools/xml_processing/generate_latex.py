@@ -167,7 +167,7 @@ class XMLToLatex:
 			if heterogeneity_df is not None:
 				heterogeneity_df = heterogeneity_df.groupby(['subgroups','effect_type'], as_index=False)['hypothesis_id'].apply(lambda x: ', '.join(x))
 				heterogeneity_df = heterogeneity_df.loc[heterogeneity_df.subgroups!='main',:]
-				self.pandas_to_latex(heterogeneity_df,
+				self.pandas_to_latex(heterogeneity_df.reset_index(drop=True),
 									 label_col="label",
 									 column_format="p{0.1cm}Xp{2cm}X",
 									 caption="Heterogeneity")
