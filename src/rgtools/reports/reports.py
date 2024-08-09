@@ -270,7 +270,7 @@ class Reports:
                 p_value = "" if pd.isna(p_value) else str(p_value)
                 p_value = f'p-value: {p_value}'
                 p_value = f'p = {str(p_value)}' if p_value.replace('.','',1).isdigit() else p_value
-                results = results + f', {p_value}' if p_value != "" else results
+                results = results + f', {p_value}' if p_value != "p-value: " else results
                 self.add_text(page, coords["results"], results)
                 self.add_text(page, coords["location"], str(main_df["location"].iloc[0]))
 
