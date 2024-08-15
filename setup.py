@@ -8,10 +8,11 @@ setup(
     description='Repository with the tooling for capturing data from social science registry trials',
     packages=find_packages('src'),
     package_dir={'': 'src'},
-    install_requires=['pandas==2.0.3',
+    install_requires=['numpy==1.25.1'
+        'pandas==2.0.3',
                       'xmlschema==2.3.1',
                       'Jinja2==3.1.2',
                       'openpyxl==3.1.3',
-                        'PyMuPDF==1.24.4',
+                        'PyMuPDF==1.24.4'
                       ],
 )
