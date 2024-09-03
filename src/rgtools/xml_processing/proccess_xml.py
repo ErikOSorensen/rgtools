@@ -9,6 +9,7 @@ class XMLProcessor:
 		self.trial_schema = None
 		self.trial_object = None
 
+		self.authors_df = None
 		self.interventions_df = None
 		self.outcomes_df = None
 		self.arms_df = None
@@ -29,6 +30,8 @@ class XMLProcessor:
 	def parse_populations(self):
 		self.populations_df = pd.DataFrame(self.trial_object['populations']['population'])
 
+	def parse_authors(self):
+		self.authors_df = pd.DataFrame(self.trial_object['owners']['researcher'])
 
 	def parse_interventions(self):
 		self.interventions_df = pd.DataFrame(self.trial_object['interventions']['intervention'])
@@ -86,6 +89,9 @@ class XMLProcessor:
 		output_filepath = self.file_path.replace(".xml","")+"_csv"
 		# output_filepath = os.path.join(output_filepath,"G0_csv")
 		os.makedirs(output_filepath,exist_ok=True)
+		if self.authors_df is not None:
+			csv_output = f'{output_filepath}/authors.csv'
+			self.authors_df.to_csv(csv_output)
 		if self.populations_df is not None:
 			csv_output = f'{output_filepath}/populations.csv'
 			self.populations_df.to_csv(csv_output)
@@ -116,6 +122,7 @@ class XMLProcessor:
 
 
 	def parse_xml(self):
+		self.parse_authors()
 		self.parse_populations()
 		self.parse_interventions()
 		self.parse_outcomes()
@@ -216,7 +223,6 @@ class HypothesesProcessor:
 # 633: joint-test, 641: feature & heterogeneity, 610: interaction
 # xml_processing = XMLProcessor('data/556_G0_GP.xml')
 # xml_processing.run()
-# xml_processing.trial_object['secondary_outcomes']
 
 # heterogeneity_df = xml_processing.heterogeneity_df
 #
