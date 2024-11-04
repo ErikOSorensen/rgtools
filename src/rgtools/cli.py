@@ -17,6 +17,7 @@ generate_latex_parser = subparsers.add_parser("generate_latex_parser", help="Gen
 generate_latex_parser.add_argument('-x', '--xml_path', help="Path to XML File")
 generate_latex_parser.add_argument('-a', '--all',  action='store_true', help="Process G0 for all files")
 generate_latex_parser.add_argument('-d', '--dir', required=False , default="data/01_Production/", help="Process G0 for all files")
+generate_latex_parser.add_argument('-t', '--tracker_path', help="Path to Tracker")
 
 
 generate_report_parser = subparsers.add_parser("generate_report", help="Generate Filled-in Report of the study")
