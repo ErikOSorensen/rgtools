@@ -25,6 +25,8 @@ generate_report_parser.add_argument('-m', '--meta_path', help="Path to Hypothesi
 generate_report_parser.add_argument('-x', '--xml_path', help="Path to XML File")
 
 generate_report_parser.add_argument('-a', '--all',  action='store_true', help="Generate report for all files")
+generate_report_parser.add_argument('-a', '--all',  action='store_true', help="Generate report for all files")
+generate_report_parser.add_argument('-t', '--tracker_path', help="Path to Tracker")
 
 
 
@@ -50,8 +52,9 @@ def main(args=None):
         if not args.all:
             XMLToLatex(args.xml_path).run()
         else:
-            df = pd.read_csv('data/RGPB FY24 Workplan - Study Progress Tracker.csv')
-            df = df.loc[df['Meets Goal?']=="Yes",]
+            # df = pd.read_csv('data/RGPB FY24 Workplan - Study Progress Tracker.csv')
+            # df = df.loc[df['Meets Goal?']=="Yes",]
+            df = pd.read_csv(args.tracker_path)
             df = df.loc[df['Study Status']=="Complete",]
             rct_ids = df.copy()
             rct_ids['study_id'] = rct_ids['RCT_ID'].str.replace("AEARCTR-","").astype(int)
@@ -77,8 +80,8 @@ def main(args=None):
         if not args.all:
             Reports(args.xml_path, args.meta_path).run()
         else:
-            df = pd.read_csv('data/RGPB FY24 Workplan - Study Progress Tracker.csv')
-            df = df.loc[df['Meets Goal?']=="Yes",]
+            df = pd.read_csv(args.tracker_path)
+            # df = df.loc[df['Meets Goal?']=="Yes",]
             df = df.loc[df['Study Status']=="Complete",]
             rct_ids = df.copy()
             rct_ids['study_id'] = rct_ids['RCT_ID'].str.replace("AEARCTR-","").astype(int)
