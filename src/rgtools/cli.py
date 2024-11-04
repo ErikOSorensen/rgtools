@@ -25,7 +25,6 @@ generate_report_parser.add_argument('-m', '--meta_path', help="Path to Hypothesi
 generate_report_parser.add_argument('-x', '--xml_path', help="Path to XML File")
 
 generate_report_parser.add_argument('-a', '--all',  action='store_true', help="Generate report for all files")
-generate_report_parser.add_argument('-a', '--all',  action='store_true', help="Generate report for all files")
 generate_report_parser.add_argument('-t', '--tracker_path', help="Path to Tracker")
 
 
