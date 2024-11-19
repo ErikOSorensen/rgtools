@@ -82,7 +82,11 @@ class Hypotheses:
             change_hypotheses = self.main_het_found.iloc[range(change_page, len(self.main_het_found))].index
             self.main_het_found.loc[change_hypotheses, "page_num"] = self.main_het_found.loc[
                                                                          change_hypotheses, "page_num"] + 1
-        self.main_het_found['extra_heterogeneity'] = self.main_het_found.het_n > 5
+        # Identify number of pages needed for heterogeneity
+        ## first 5 het go in the 'main hypotheses' page
+        ## next 16 go in the 'extra heterogeneity' page
+        ## next 16 go in the next 'extra heterogeneity' page and so on
+        self.main_het_found['extra_heterogeneity'] = ((self.main_het_found.het_n - 6)//16)+1 
 
         if self.main_het_found.extra_heterogeneity.any():
             self.main_het_found["extra_heterogeneity_cumsum"]=self.main_het_found.extra_heterogeneity.cumsum()
@@ -191,16 +195,18 @@ class Reports:
                 for widget in doc[0].widgets():
                     multi_doc[page_num].add_widget(widget)
                 doc.close()
-                if hyp_df.loc[hyp_df.index==hyp_list[doc_index]]['extra_heterogeneity'].iloc[0]:
-                    doc = fitz.open(self.extra_heterogeneity_loc)
-                    page_num += 1 # Extra heterogeneity page is on the next page
-                    for widget in doc[0].widgets():
-                        widget.field_name = f'{widget.field_name}_{type}_{str(page_num + 1)}'
-                        widget.update()
-                    multi_doc.insert_pdf(doc)
-                    for widget in doc[0].widgets():
-                        multi_doc[page_num].add_widget(widget)
-                    doc.close()
+                extra_heterogeneity_n = hyp_df.loc[hyp_df.index==hyp_list[doc_index]]['extra_heterogeneity'].iloc[0]
+                if extra_heterogeneity_n>0:
+                    for extra_het_index in range(extra_heterogeneity_n):
+                        doc = fitz.open(self.extra_heterogeneity_loc)
+                        page_num += 1 # Extra heterogeneity page is on the next page
+                        for widget in doc[0].widgets():
+                            widget.field_name = f'{widget.field_name}_{type}_{str(page_num + 1)}'
+                            widget.update()
+                        multi_doc.insert_pdf(doc)
+                        for widget in doc[0].widgets():
+                            multi_doc[page_num].add_widget(widget)
+                        doc.close()
 
         return multi_doc
 
@@ -217,9 +223,11 @@ class Reports:
     def update_fields(self,page,field_values):
         widgets = list(page.widgets())
         widget_labels = [widget.field_name for widget in widgets]
+        # print("Widget labels:")
         # print(widget_labels)
 
         for widget_label in field_values:
+            # print(f'Processing {widget_label}')
             widget_index = widget_labels.index(widget_label)
             widget = widgets[widget_index]
             widget_value = field_values[widget_label]
@@ -298,33 +306,37 @@ class Reports:
 
                     self.update_fields(page,field_values)
                 if het_n>5:
-                    page_num += 1
-                    page = self.report_doc[page_num]
-                    for index in range(5, het_n):
-                        # print("In extra")
-                        dim = f'{het_df.iloc[index]["heterogeneity"]}'
-                        subgr = f'({het_df.iloc[index]["subgr"]})'
-                        dim = dim + subgr if subgr != "(nan)" else dim
-                        # print(f'Index: {index} hyp_id: {hyp_id} dim: {dim}')
-                        eff = het_df.iloc[index]["estimate"] if type in ["f_f", "nf_f"] else "Not Found"
-                        SE = het_df.iloc[index]["SE"] if type in ["f_f", "nf_f"] else "Not Found"
+                    het_pages = ((het_n - 6)//16)+1
+                    for het_page in range(het_pages): 
+                        page_num += 1
+                        page = self.report_doc[page_num]
+                        hets_this_page = min(16,het_n-5)
+                        for index in range((16*het_page)+5, hets_this_page+(16*het_page)+5):
+                            # print(f"Processing het hypothesis {index} of page {het_page} ")
+                            dim = f'{het_df.iloc[index]["heterogeneity"]}'
+                            subgr = f'({het_df.iloc[index]["subgr"]})'
+                            dim = dim + subgr if subgr != "(nan)" else dim
+                            # print(f'Index: {index} hyp_id: {hyp_id} dim: {dim}')
+                            eff = het_df.iloc[index]["estimate"] if type in ["f_f", "nf_f"] else "Not Found"
+                            SE = het_df.iloc[index]["SE"] if type in ["f_f", "nf_f"] else "Not Found"
 
-                        field_values = {
-                            f'hyp #_' + type + '_' + str(page_num + 1): hyp_num + 1,
-                            f'dim {index + 1 - 5}_' + type + '_' + str(page_num + 1): dim,
-                            f'eff {index + 1 - 5}_' + type + '_' + str(page_num + 1): eff,
-                            f'SE {index + 1 - 5}_' + type + '_' + str(page_num + 1): SE
-                        }
-                        if np.isnan(het_df.iloc[index]["estimate"]) and np.isnan(het_df.iloc[index]["SE"]) and het_df.iloc[index]["completely_available"]:
-                            field_values[f'other {index + 1}_' + type + '_' + str(
-                                page_num + 1)] = "The estimates were found in some form but in a format that doesn’t fit this results report"
-
-                        self.update_fields(page, field_values)
+                            
+                            field_values = {
+                                f'hyp #_' + type + '_' + str(page_num + 1): hyp_num + 1,
+                                f'dim {index + 1 - ((16*het_page)+5)}_' + type + '_' + str(page_num + 1): dim,
+                                f'eff {index + 1 - ((16*het_page)+5)}_' + type + '_' + str(page_num + 1): eff,
+                                f'SE {index + 1 - ((16*het_page)+5)}_' + type + '_' + str(page_num + 1): SE
+                            }
+                            if np.isnan(het_df.iloc[index]["estimate"]) and np.isnan(het_df.iloc[index]["SE"]) and het_df.iloc[index]["completely_available"]:
+                                field_values[f'other {index + 1}_' + type + '_' + str(
+                                    page_num + 1)] = "The estimates were found in some form but in a format that doesn’t fit this results report"
+                            self.update_fields(page, field_values)
 
     def run(self):
         self.report_doc = self.assemble_report_pages()
 
         for type in ["nf_nf", "nf_f","f_nf","f_f"]:
+            # print(type)
             if (len(self.hypotheses.hyp_categories[type])>0):
                 self.insert_hypotheses(type)
 
@@ -334,15 +346,8 @@ class Reports:
 
 
 # self = Reports(xml_directory="data/01_Production/291/291_G0_GP.xml",meta_path="data/06_analytical/01_batch1/to_keep_expansions_0a2258971d55d3850c85cc88bcba04d8.csv")
+# self = Reports(xml_directory="data/01_Production/1139/1139_G0_VS.xml",meta_path="data/06_analytical/01_batch1/to_keep_expansions_8acc6912fcfe1e62410560b9dfbcbab7.csv")
 # self.run()
-# Reports(xml_directory="data/01_Production/291/291_G0_GP.xml").run()
-# Reports(xml_directory="data/01_Production/604/604_G0_GP.xml").run()
-# Reports(xml_directory="data/01_Production/558/558_G0_GP.xml").run()
-# Reports(xml_directory="data/01_Production/569/569_G0_VS.xml").run()
-# Reports(xml_directory="data/01_Production/633/633_G0_GP.xml").run()
-# Reports(xml_directory="data/01_Production/634/634_G0_GP.xml").run()
-# Reports(xml_directory="data/01_Production/543/543_G0_VS.xml").run()
-# Reports(xml_directory="data/01_Production/641/641_G0_GP.xml").run()
-# Reports(xml_directory="data/01_Production/643/643_G0_GP.xml").run()
-# Reports(xml_directory="data/01_Production/630/630_G0_VS.xml").run()
+# type='f_nf'
+# self.insert_hypotheses('f_nf')
 
