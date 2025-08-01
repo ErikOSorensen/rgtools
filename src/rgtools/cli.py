@@ -56,7 +56,7 @@ def main(args=None):
             # df = df.loc[df['Meets Goal?']=="Yes",]
             df = pd.read_csv(args.tracker_path)
             df = df.loc[df['Study Status']=="Complete",]
-            df = df.loc[df['batch']=="batch 4",]
+            df = df.loc[df['batch']=="batch 5",]
             rct_ids = df.copy()
             rct_ids['study_id'] = rct_ids['RCT_ID'].str.replace("AEARCTR-","").astype(int)
             rct_ids['author'] = ""
