@@ -345,8 +345,8 @@ class Reports:
         self.hypotheses.main_het_found.to_csv(os.path.join(self.study.study_directory,f'{self.study.study_id}_report_metadata.csv'))
 
 
-# self = Reports(xml_directory="data/01_Production/291/291_G0_GP.xml",meta_path="data/06_analytical/01_batch1/to_keep_expansions_0a2258971d55d3850c85cc88bcba04d8.csv")
-# self = Reports(xml_directory="data/01_Production/1139/1139_G0_VS.xml",meta_path="data/06_analytical/01_batch1/to_keep_expansions_8acc6912fcfe1e62410560b9dfbcbab7.csv")
+# self = Reports(xml_directory="01_consolidate/data/input/01_Production/291/291_G0_GP.xml",meta_path="02_clean_and_analyze/data/input/06_analytical/01_batch1/to_keep_expansions_0a2258971d55d3850c85cc88bcba04d8.csv")
+# self = Reports(xml_directory="01_consolidate/data/input/01_Production/1139/1139_G0_VS.xml",meta_path="02_clean_and_analyze/data/input/06_analytical/01_batch1/to_keep_expansions_8acc6912fcfe1e62410560b9dfbcbab7.csv")
 # self.run()
 # type='f_nf'
 # self.insert_hypotheses('f_nf')

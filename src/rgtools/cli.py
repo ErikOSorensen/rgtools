@@ -16,7 +16,7 @@ get_trials_parser.add_argument('-t', '--trial_id', help="Registration ID from th
 generate_latex_parser = subparsers.add_parser("generate_latex_parser", help="Generate Latex of the coding of AEA RCT Registry")
 generate_latex_parser.add_argument('-x', '--xml_path', help="Path to XML File")
 generate_latex_parser.add_argument('-a', '--all',  action='store_true', help="Process G0 for all files")
-generate_latex_parser.add_argument('-d', '--dir', required=False , default="data/01_Production/", help="Process G0 for all files")
+generate_latex_parser.add_argument('-d', '--dir', required=False , default="01_consolidate/data/input/01_Production/", help="Process G0 for all files")
 generate_latex_parser.add_argument('-t', '--tracker_path', help="Path to Tracker")
 
 
@@ -64,7 +64,7 @@ def main(args=None):
             rct_ids.loc[rct_ids.Assignee=="Viviane",'author'] = "VS"
             rct_ids.loc[rct_ids.Assignee=="Akash",'author'] = "AS"
             rct_ids.loc[(rct_ids.Assignee=="Both"),'author'] = "Both"
-            base_dir = "data/01_Production/"
+            base_dir = "01_consolidate/data/input/01_Production/"
             rct_ids['path'] = base_dir + rct_ids.study_id.astype(str) + "/" + rct_ids.study_id.astype(str)+"_G0_" + rct_ids.author +".xml"
             xml_list = rct_ids.path.tolist()
             failed_xml = []
@@ -93,7 +93,7 @@ def main(args=None):
             rct_ids.loc[rct_ids.Assignee=="Viviane",'author'] = "VS"
             rct_ids.loc[rct_ids.Assignee=="Akash",'author'] = "AS"
             rct_ids.loc[(rct_ids.Assignee=="Both"),'author'] = "Both"
-            base_dir = "data/01_Production/"
+            base_dir = "01_consolidate/data/input/01_Production/"
             rct_ids['path'] = base_dir + rct_ids.study_id.astype(str) + "/" + rct_ids.study_id.astype(str)+"_G0_" + rct_ids.author +".xml"
             xml_list = rct_ids.path.tolist()
             failed_xml = []
